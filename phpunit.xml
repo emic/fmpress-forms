@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<phpunit
+	bootstrap="tests/phpunit/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	>
+
+	<php>
+		<const name="FMPRESS_CONNECT_ENCRYPT_KEY" value="DQkXFdu%529rRvjKCWoYGw^jVv!!9b6o" />
+		<const name="FMPRESS_CONNECT_ENCRYPT_IV" value="bbab4314a11cf3ab969e0659" />
+	</php>
+
+	<testsuites>
+		<testsuite name="unit">
+			<directory suffix="-test.php">./tests/phpunit/</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

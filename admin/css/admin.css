@@ -1,0 +1,5 @@
+.fmpress-admin-table th {
+    min-width: 150px;
+    text-align: left;
+    font-weight: normal;
+}
