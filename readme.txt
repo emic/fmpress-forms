@@ -45,5 +45,8 @@ and *FMPress* tab appears on the "Contact Form 7" setting screen.
 
 == Changelog ==
 
+= 1.0.1 =
+* Support Contact Form 7 5.5.3
+
 = 1.0.0 =
-* First Release
+* First version (Unreleased)
