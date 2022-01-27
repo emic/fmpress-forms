@@ -66,7 +66,11 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_plugin_version() {
-		$this->assertEquals( self::$plugin::VERSION, '1.0.0' );
+		$this->assertEquals( '1.0.1', self::$plugin::VERSION );
+
+		$droot = 'true' === getenv( 'GITLAB_CI' ) ? '/home/wordpress' : '/var/www/html';
+		$data = get_plugin_data("${droot}/wp-content/plugins/fmpress-forms/fmpress-forms.php");
+		$this->assertEquals( self::$plugin::VERSION, $data['Version'] );
 	}
 
 	/**
@@ -75,7 +79,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_minimum_php_version() {
-		$this->assertEquals( self::$plugin::MINIMUM_PHP_VERSION, '7.4.0' );
+		$this->assertEquals( '7.4.0', self::$plugin::MINIMUM_PHP_VERSION );
 	}
 
 	/**
@@ -84,7 +88,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_minimum_cf7_version() {
-		$this->assertEquals( self::$plugin::MINIMUM_CF7_VERSION, '5.5' );
+		$this->assertEquals( '5.5', self::$plugin::MINIMUM_CF7_VERSION );
 	}
 
 	/**
