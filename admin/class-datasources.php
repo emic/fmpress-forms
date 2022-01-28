@@ -64,12 +64,12 @@ final class Datasources {
 		);
 		$labels   = array(
 			'name'          => did_action( 'fmpress_connect_loaded' ) ? 'FMPress Pro' : 'FMPress',
-			'singular_name' => __( 'Datasources', 'emic-fmpress-forms' ),
-			'all_items'     => __( 'Datasources', 'emic-fmpress-forms' ),
-			'add_new_item'  => __( 'Add new datasource', 'emic-fmpress-forms' ),
-			'edit_item'     => __( 'Edit datasource', 'emic-fmpress-forms' ),
-			'new_item'      => __( 'Add new datasource', 'emic-fmpress-forms' ),
-			'view_item'     => __( 'Show datasource', 'emic-fmpress-forms' ),
+			'singular_name' => __( 'Datasources', 'fmpress-forms' ),
+			'all_items'     => __( 'Datasources', 'fmpress-forms' ),
+			'add_new_item'  => __( 'Add new datasource', 'fmpress-forms' ),
+			'edit_item'     => __( 'Edit datasource', 'fmpress-forms' ),
+			'new_item'      => __( 'Add new datasource', 'fmpress-forms' ),
+			'view_item'     => __( 'Show datasource', 'fmpress-forms' ),
 		);
 		$args     = array(
 			'labels'               => $labels,
@@ -95,8 +95,8 @@ final class Datasources {
 	public function add_submenu() {
 		add_submenu_page(
 			'edit.php?post_type=connect_datasource',
-			__( 'Documentation', 'emic-fmpress-forms' ),
-			__( 'Documentation', 'emic-fmpress-forms' ),
+			__( 'Documentation', 'fmpress-forms' ),
+			__( 'Documentation', 'fmpress-forms' ),
 			'edit_themes',
 			'support',
 			array( $this, 'display_submenu' )
@@ -109,9 +109,9 @@ final class Datasources {
 	public function display_submenu() {
 		echo sprintf(
 			'<div class="wrap"><h1>%s</h1><p><a href="%s" target="_blank" rel="noopener">%s</a></p></div>',
-			esc_html__( 'Documentation', 'emic-fmpress-forms' ),
+			esc_html__( 'Documentation', 'fmpress-forms' ),
 			esc_attr( 'https://github.com/emic/fmpress-forms/wiki' ),
-			esc_html__( 'Click here for documentation.', 'emic-fmpress-forms' )
+			esc_html__( 'Click here for documentation.', 'fmpress-forms' )
 		);
 	}
 
@@ -133,7 +133,7 @@ final class Datasources {
 		 * Define data source
 		 */
 		$id       = 'datasources';
-		$title    = __( 'Datasource info', 'emic-fmpress-forms' );
+		$title    = __( 'Datasource info', 'fmpress-forms' );
 		$callback = array( $this, 'add_datasource_fields' );
 		$screen   = $this->custompost_name;
 		add_meta_box(
@@ -158,8 +158,8 @@ final class Datasources {
 			'<label for="%1$s">%2$s</label>' .
 			'<select id="%1$s" name="%3$s">',
 			esc_attr( 'driver' ),
-			esc_html__( 'Driver', 'emic-fmpress-forms' ),
-			esc_attr( FMPRESS_CONNECT_NAMEPREFIX . '_driver' ),
+			esc_html__( 'Driver', 'fmpress-forms' ),
+			esc_attr( FMPRESS_CONNECT_NAMEPREFIX . '_driver' )
 		);
 
 		$this->generate_options_from_drivers();
@@ -173,7 +173,7 @@ final class Datasources {
 			'<input id="%1$s" type="%5$s" name="%3$s" value="%4$s">' .
 			'</div>',
 			esc_attr( 'serverAddress' ),
-			esc_html__( 'Server', 'emic-fmpress-forms' ),
+			esc_html__( 'Server', 'fmpress-forms' ),
 			esc_attr( FMPRESS_CONNECT_NAMEPREFIX . '_server' ),
 			esc_attr( Utils::get_custom_field_value( FMPRESS_CONNECT_NAMEPREFIX . '_server' ) ),
 			esc_attr( 'text' )
@@ -186,7 +186,7 @@ final class Datasources {
 			'<input id="%1$s" type="%5$s" name="%3$s" value="%4$s">' .
 			'</div>',
 			esc_attr( 'databaseName' ),
-			esc_html__( 'Database', 'emic-fmpress-forms' ),
+			esc_html__( 'Database', 'fmpress-forms' ),
 			esc_attr( FMPRESS_CONNECT_NAMEPREFIX . '_datasource' ),
 			esc_attr( Utils::get_custom_field_value( FMPRESS_CONNECT_NAMEPREFIX . '_datasource' ) ),
 			esc_attr( 'text' )
@@ -199,7 +199,7 @@ final class Datasources {
 			'<input id="%1$s" type="%5$s" name="%3$s" value="%4$s">' .
 			'</div>',
 			esc_attr( 'databaseUsername' ),
-			esc_html__( 'Username', 'emic-fmpress-forms' ),
+			esc_html__( 'Username', 'fmpress-forms' ),
 			esc_attr( FMPRESS_CONNECT_NAMEPREFIX . '_datasource_username' ),
 			esc_attr( Utils::get_custom_field_value( FMPRESS_CONNECT_NAMEPREFIX . '_datasource_username' ) ),
 			esc_attr( 'text' )
@@ -225,17 +225,17 @@ final class Datasources {
 			'</div>' .
 			'</div>',
 			esc_attr( 'databasePassword' ),
-			esc_html__( 'Password', 'emic-fmpress-forms' ),
+			esc_html__( 'Password', 'fmpress-forms' ),
 			esc_attr( FMPRESS_CONNECT_NAMEPREFIX . '_datasource_password' ),
 			'',
 			esc_attr( 'text' ),
-			esc_html__( 'Set password', 'emic-fmpress-forms' ),
+			esc_html__( 'Set password', 'fmpress-forms' ),
 			esc_attr( 'width: 50%;' ),
 			esc_attr( 'setDatabasePassword' ),
 			esc_attr( 'hideDatabasePassword' ),
 			esc_attr( 'cancelDatabasePassword' ),
-			esc_html__( 'Hide', 'emic-fmpress-forms' ),
-			esc_html__( 'Cancel', 'emic-fmpress-forms' )
+			esc_html__( 'Hide', 'fmpress-forms' ),
+			esc_html__( 'Cancel', 'fmpress-forms' )
 		);
 
 		// Show connection test button.
@@ -345,7 +345,7 @@ final class Datasources {
 		printf(
 			'<option disabled value=""%1$s>%2$s</option>',
 			esc_html( empty( $driver_id ) ? ' selected' : '' ),
-			esc_html__( 'Choose driver', 'emic-fmpress-forms' )
+			esc_html__( 'Choose driver', 'fmpress-forms' )
 		);
 
 		// Generate option elements.
@@ -370,7 +370,7 @@ final class Datasources {
 
 		echo sprintf(
 			'<button id="connectionTest" class="button">%1$s</button>',
-			esc_html__( 'Connection test', 'emic-fmpress-forms' )
+			esc_html__( 'Connection test', 'fmpress-forms' )
 		);
 	}
 
@@ -409,7 +409,7 @@ final class Datasources {
 		if ( isset( $_POST['wp_post_id'] ) ) {
 			$post_id = sanitize_text_field( wp_unslash( $_POST['wp_post_id'] ) );
 		} else {
-			$messages[] = __( 'Post ID is not included.', 'emic-fmpress-forms' );
+			$messages[] = __( 'Post ID is not included.', 'fmpress-forms' );
 			exit( wp_json_encode( $messages ) );
 		}
 

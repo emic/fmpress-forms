@@ -7,8 +7,7 @@
  * Author: Emic Corporation
  * Author URI: https://www.emic.co.jp/
  * License: GPLv2 or later
- * Text Domain: emic-fmpress-forms
- * Domain Path: /languages
+ * Text Domain: fmpress-forms
  *
  * @package WordPress
  */
@@ -81,7 +80,7 @@ final class FMPress_Forms {
 	 */
 	public function fmpress_load_plugin_textdomain() {
 		load_plugin_textdomain(
-			'emic-fmpress-forms',
+			'fmpress-forms',
 			false,
 			basename( dirname( __FILE__ ) ) . '/languages'
 		);
@@ -370,7 +369,7 @@ final class FMPress_Forms {
 			version_compare( WPCF7_VERSION, $cf7_version, '<' ) ) {
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-				__( '"%1$s" requires "%2$s" version %3$s or greater.', 'emic-fmpress-forms' ),
+				__( '"%1$s" requires "%2$s" version %3$s or greater.', 'fmpress-forms' ),
 				self::PLUGIN_NAME,
 				'Contact Form 7',
 				$cf7_version
@@ -393,7 +392,7 @@ final class FMPress_Forms {
 		if ( did_action( 'fmpress_forms_loaded' ) && did_action( 'fmpress_forms_pro_loaded' ) ) {
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: FMPress Pro */
-				__( '"%1$s" and "%2$s" cannot be activated simultaneously.', 'emic-fmpress-forms' ),
+				__( '"%1$s" and "%2$s" cannot be activated simultaneously.', 'fmpress-forms' ),
 				'FMPress Forms',
 				self::PLUGIN_NAME
 			);
@@ -415,7 +414,7 @@ final class FMPress_Forms {
 		if ( did_action( 'fmpress_forms_pro_loaded' ) && ! did_action( 'fmpress_connect_loaded' ) ) {
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: FMPress Pro */
-				__( '"%1$s" requires "%2$s" to be installed and activated.', 'emic-fmpress-forms' ),
+				__( '"%1$s" requires "%2$s" to be installed and activated.', 'fmpress-forms' ),
 				self::PLUGIN_NAME,
 				'FMPress Pro'
 			);
@@ -437,7 +436,7 @@ final class FMPress_Forms {
 		if ( did_action( 'fmpress_forms_loaded' ) && did_action( 'fmpress_connect_loaded' ) ) {
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: FMPress Pro */
-				__( '"%1$s" and "%2$s" cannot be activated simultaneously.', 'emic-fmpress-forms' ),
+				__( '"%1$s" and "%2$s" cannot be activated simultaneously.', 'fmpress-forms' ),
 				'FMPress Forms',
 				'FMPress Pro'
 			);

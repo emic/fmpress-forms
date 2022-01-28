@@ -33,7 +33,7 @@ module.exports = function( grunt ) {
 					domainPath: '/languages',
 					exclude: [ '\.git/*', 'bin/*', 'node_modules/*', 'tests/*' ],
 					mainFile: 'fmpress-forms.php',
-					potFilename: 'emic-fmpress-forms-ja.po',
+					potFilename: 'fmpress-forms-ja.po',
 					potHeaders: {
 						poedit: true,
 						'x-poedit-keywordslist': true

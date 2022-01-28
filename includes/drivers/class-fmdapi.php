@@ -90,7 +90,7 @@ final class Fmdapi extends Database {
 			return $token;
 		} elseif ( false === $token ) {
 			return Utils::generate_wp_error(
-				__( 'Could not get token.', 'emic-fmpress-forms' )
+				__( 'Could not get token.', 'fmpress-forms' )
 			);
 		}
 
@@ -120,7 +120,7 @@ final class Fmdapi extends Database {
 		if ( ! $datasource ) {
 			// Could not get data source name.
 			return Utils::generate_wp_error(
-				__( 'Could not get datasource.', 'emic-fmpress-forms' )
+				__( 'Could not get datasource.', 'fmpress-forms' )
 			);
 		}
 		$encoded      = rawurlencode( $datasource );

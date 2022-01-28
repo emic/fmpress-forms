@@ -48,6 +48,7 @@ and *FMPress* tab appears on the "Contact Form 7" setting screen.
 - = 1.0.2 =
 (in development)
 
+* Rename translation files to modify the text domain
 * Improve compatibility with FMPress Pro
 
 = 1.0.1 =

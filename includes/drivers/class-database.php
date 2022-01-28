@@ -156,7 +156,7 @@ abstract class Database {
 		if ( ! $datasource ) {
 			// Could not get datasource name.
 			return Utils::generate_wp_error(
-				__( 'Could not get datasource.', 'emic-fmpress-forms' )
+				__( 'Could not get datasource.', 'fmpress-forms' )
 			);
 		}
 		$encoded = rawurlencode( $datasource );
@@ -360,7 +360,7 @@ abstract class Database {
 
 		if ( ! $post_id ) {
 			return Utils::generate_wp_error(
-				__( 'Could not get datasource( custom post ).', 'emic-fmpress-forms' )
+				__( 'Could not get datasource( custom post ).', 'fmpress-forms' )
 			);
 		}
 

@@ -99,7 +99,7 @@ final class Admin {
 			return;
 		}
 
-		echo '<h2>', esc_html__( 'Form mode', 'emic-fmpress-forms' ), '</h2>',
+		echo '<h2>', esc_html__( 'Form mode', 'fmpress-forms' ), '</h2>',
 			'<div class="form-field">';
 
 		$checked = '1' === $value ? ' checked' : '';
@@ -108,9 +108,9 @@ final class Admin {
 			'<input type="radio" id="modeCreate" name="%3$s" value="%1$s"%5$s>' .
 			'<label for="modeCreate">%4$s</label>',
 			esc_attr( 1 ),
-			esc_html__( 'Mode', 'emic-fmpress-forms' ),
+			esc_html__( 'Mode', 'fmpress-forms' ),
 			esc_attr( $field_name ),
-			esc_html__( 'Create', 'emic-fmpress-forms' ),
+			esc_html__( 'Create', 'fmpress-forms' ),
 			esc_html( $checked )
 		);
 
@@ -120,16 +120,16 @@ final class Admin {
 			'<input type="radio" id="modeUpdate" name="%3$s" value="%1$s"%5$s>' .
 			'<label for="modeUpdate">%4$s</label>',
 			esc_attr( 2 ),
-			esc_html__( 'Mode', 'emic-fmpress-forms' ),
+			esc_html__( 'Mode', 'fmpress-forms' ),
 			esc_attr( $field_name ),
-			esc_html__( 'Update', 'emic-fmpress-forms' ),
+			esc_html__( 'Update', 'fmpress-forms' ),
 			esc_html( $checked )
 		);
 
 		echo '<p><small>',
 			esc_html__(
 				'To use the update mode, you need to use both FMPress Forms plug-in and FMPress Members plug-in.',
-				'emic-fmpress-forms'
+				'fmpress-forms'
 			),
 			'</small></p></div>',
 			'<hr style="margin: 1em 0 2em;">';
@@ -145,7 +145,7 @@ final class Admin {
 
 		$this->add_form_mode_field( $field_name, $cf7_settings['form_mode'] );
 
-		echo '<h2>', esc_html__( 'Datasource', 'emic-fmpress-forms' ), '</h2>';
+		echo '<h2>', esc_html__( 'Datasource', 'fmpress-forms' ), '</h2>';
 
 		// Generating fields for setting data source and layout.
 		$fmpress_core_admin =
@@ -171,12 +171,12 @@ final class Admin {
 		}
 
 		echo '<hr style="margin: 1em 0 2em;">',
-			'<h2>', esc_html__( 'Relationship', 'emic-fmpress-forms' ), '</h2>',
+			'<h2>', esc_html__( 'Relationship', 'fmpress-forms' ), '</h2>',
 			'<table class="table fmpress-admin-table"><tbody>';
 
 		// Create a field to set a foreign key.
 		$name  = 'external_table_key_field';
-		$label = __( 'foreign key field', 'emic-fmpress-forms' );
+		$label = __( 'foreign key field', 'fmpress-forms' );
 
 		$cf7_settings[ $name ] = $cf7_settings[ $name ] ?? '';
 
@@ -202,7 +202,7 @@ final class Admin {
 	 */
 	private function assign_fields_section( $contact_form ) {
 		echo '<hr style="margin: 1em 0 2em;">',
-			'<h2>', esc_html__( 'Assign fields', 'emic-fmpress-forms' ), '</h2>','<table class="table fmpress-admin-table"><tbody>';
+			'<h2>', esc_html__( 'Assign fields', 'fmpress-forms' ), '</h2>','<table class="table fmpress-admin-table"><tbody>';
 
 		// Generate fields for field assignment.
 		$mailtags = $contact_form->collect_mail_tags();

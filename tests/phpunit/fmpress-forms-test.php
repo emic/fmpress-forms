@@ -116,18 +116,18 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * 翻訳ファイルがロードできるかテスト：emic-fmpress-forms
+	 * 翻訳ファイルがロードできるかテスト：fmpress-forms
 	 *
 	 * @return void
 	 */
 	public function test_textdomain_fmpress_forms() {
 		add_filter( 'locale', array( $this, 'filter_set_locale_to_ja' ) );
-		load_textdomain( 'emic-fmpress-forms', FMPRESS_FORMS_PLUGIN_DIR . '/languages/emic-fmpress-forms-ja.mo' );
+		load_textdomain( 'fmpress-forms', FMPRESS_FORMS_PLUGIN_DIR . '/languages/fmpress-forms-ja.mo' );
 
 		$this->assertEquals( get_locale(), 'ja' );
-		$this->assertTrue( is_textdomain_loaded( 'emic-fmpress-forms' ) );
-		$this->assertSame( __( 'Relationship', 'emic-fmpress-forms' ), 'リレーションシップ' );
-		unload_textdomain( 'emic-fmpress-forms' );
+		$this->assertTrue( is_textdomain_loaded( 'fmpress-forms' ) );
+		$this->assertSame( __( 'Relationship', 'fmpress-forms' ), 'リレーションシップ' );
+		unload_textdomain( 'fmpress-forms' );
 	}
 
 	/**
