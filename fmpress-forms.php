@@ -100,19 +100,19 @@ final class FMPress_Forms {
 			array( $this, 'fmpress_add_link_to_settings' )
 		);
 
-		// Require plugin files.
-		$this->fmpress_require_files();
+		if ( ! is_plugin_active( 'fmpress-connect/fmpress-connect.php' ) || did_action( 'fmpress_forms_pro_loaded' ) ) {
+			// Require plugin files.
+			$this->fmpress_require_files();
 
-		// Enqueue files.
-		if ( did_action( 'fmpress_forms_loaded' ) ) {
-			$this->fmpress_enqueue_files();
+			// Create class instances.
+			new Admin();
+			new Forms();
 		}
 
-		// Create class instances.
-		new Admin();
-		new Forms();
-
 		if ( did_action( 'fmpress_forms_loaded' ) ) {
+			// Enqueue files.
+			$this->fmpress_enqueue_files();
+
 			new Core\Datasources();
 		}
 	}

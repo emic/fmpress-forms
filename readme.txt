@@ -45,6 +45,11 @@ and *FMPress* tab appears on the "Contact Form 7" setting screen.
 
 == Changelog ==
 
+- = 1.0.2 =
+(in development)
+
+* Improve compatibility with FMPress Pro
+
 = 1.0.1 =
 Release Date: December 6, 2021
 
