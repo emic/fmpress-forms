@@ -220,7 +220,7 @@ final class Forms {
 	}
 
 	/**
-	 * If an error occurs, do not send the email
+	 * Determine whether to send mail
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -229,6 +229,16 @@ final class Forms {
 	 * @return bool
 	 */
 	public function set_skip_mail( $skip_mail, $contact_form ) {
+		// Get the additional settings.
+		// Check the setting to not send email.
+		if ( $contact_form->is_true( 'skip_mail' ) ) {
+			return true;
+		} elseif ( $contact_form->is_true( 'demo_mode' ) ) {
+			return true;
+		}
+
+		// An error occurred on the database server.
+		// Do not send email.
 		if ( is_wp_error( $this->result ) ) {
 			return true;
 		}

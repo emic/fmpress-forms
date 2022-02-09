@@ -39,15 +39,27 @@ To run FMPress Forms we recommend your host supports:
 After activation of the plugin, you'll find *FMPress* on the WordPress admin screen menu, 
 and *FMPress* tab appears on the "Contact Form 7" setting screen.
 
-== Frequently asked questions ==
+== Frequently Asked Questions ==
+
+= How to activate FMPress Forms plugin? =
+
+After activating the plugin, you will see a note at the top of the Administration Screen asking you to add two constants, copy the values and paste the copied content into wp-config.php. Reactivate the plugin after editing wp-config.php.
+
+Example:
+`
+define( 'FMPRESS_CONNECT_ENCRYPT_KEY', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' );
+define( 'FMPRESS_CONNECT_ENCRYPT_IV', 'xxxxxxxxxxxxxxxxxxxxxxxx' );`
+
+= How to assign fields in the *FMPress* tab panel? =
+
+You must add *fm_field-* as a prefix to the beginning of the form-tag name in the *Form* tab panel. (e.g. fm_field-company_name)
 
 == Screenshots ==
 
 == Changelog ==
 
-- = 1.0.2 =
-(in development)
-
+= 1.0.2 =
+* Support demo_mode and skip_mail for Additional Settings of Contact Form 7
 * Rename translation files to modify the text domain
 * Improve compatibility with FMPress Pro
 
