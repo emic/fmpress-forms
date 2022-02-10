@@ -65,7 +65,7 @@ final class Settings {
 		$tabs = array(
 			'datasources' => array(
 				'name'         => 'datasources',
-				'title'        => __( 'Datasources', 'emic-fmpress-forms' ),
+				'title'        => __( 'Datasources', 'fmpress-forms' ),
 				'icon_classes' => 'dashicons dashicons-cloud',
 				'selected'     => true,
 				'callback'     => array( $this, 'add_tabpanel_datasource' ),
@@ -259,8 +259,8 @@ final class Settings {
 			'<td><select id="%1$s" name="%4$s">' .
 			'<option selected value="-1">%3$s</option>',
 			esc_attr( 'dataSourceId' ),
-			esc_html__( 'Datasource', 'emic-fmpress-forms' ),
-			esc_html__( 'Choose datasource', 'emic-fmpress-forms' ),
+			esc_html__( 'Datasource', 'fmpress-forms' ),
+			esc_html__( 'Choose datasource', 'fmpress-forms' ),
 			esc_attr( $field_name )
 		);
 
@@ -282,7 +282,7 @@ final class Settings {
 			'<td><input id="%1$s" type="%5$s" name="%3$s" value="%4$s"></td>' .
 			'</tr>',
 			esc_attr( 'fileMakerLayoutName' ),
-			esc_html__( 'Layout', 'emic-fmpress-forms' ),
+			esc_html__( 'Layout', 'fmpress-forms' ),
 			esc_attr( $field_name ),
 			esc_attr( $saved_value ),
 			esc_attr( 'text' )
@@ -303,7 +303,7 @@ final class Settings {
 			'<td><input id="%1$s" type="%5$s" name="%3$s" value="%4$s"></td>' .
 			'</tr>',
 			esc_attr( 'fileMakerTONameOfMemberTable' ),
-			esc_html__( 'TO name of member table (Optional)', 'emic-fmpress-forms' ),
+			esc_html__( 'TO name of member table (Optional)', 'fmpress-forms' ),
 			esc_attr( $field_name ),
 			esc_attr( $saved_value ),
 			esc_attr( 'text' )

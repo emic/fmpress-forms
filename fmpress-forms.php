@@ -7,8 +7,7 @@
  * Author: Emic Corporation
  * Author URI: https://www.emic.co.jp/
  * License: GPLv2 or later
- * Text Domain: emic-fmpress-forms
- * Domain Path: /languages
+ * Text Domain: fmpress-forms
  *
  * @package WordPress
  */
@@ -43,7 +42,7 @@ final class FMPress_Forms {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 
 	/**
 	 * Minimum Version of PHP
@@ -81,7 +80,7 @@ final class FMPress_Forms {
 	 */
 	public function fmpress_load_plugin_textdomain() {
 		load_plugin_textdomain(
-			'emic-fmpress-forms',
+			'fmpress-forms',
 			false,
 			basename( dirname( __FILE__ ) ) . '/languages'
 		);
@@ -100,19 +99,19 @@ final class FMPress_Forms {
 			array( $this, 'fmpress_add_link_to_settings' )
 		);
 
-		// Require plugin files.
-		$this->fmpress_require_files();
+		if ( ! is_plugin_active( 'fmpress-connect/fmpress-connect.php' ) || did_action( 'fmpress_forms_pro_loaded' ) ) {
+			// Require plugin files.
+			$this->fmpress_require_files();
 
-		// Enqueue files.
-		if ( did_action( 'fmpress_forms_loaded' ) ) {
-			$this->fmpress_enqueue_files();
+			// Create class instances.
+			new Admin();
+			new Forms();
 		}
 
-		// Create class instances.
-		new Admin();
-		new Forms();
-
 		if ( did_action( 'fmpress_forms_loaded' ) ) {
+			// Enqueue files.
+			$this->fmpress_enqueue_files();
+
 			new Core\Datasources();
 		}
 	}
@@ -370,7 +369,7 @@ final class FMPress_Forms {
 			version_compare( WPCF7_VERSION, $cf7_version, '<' ) ) {
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-				__( '"%1$s" requires "%2$s" version %3$s or greater.', 'emic-fmpress-forms' ),
+				__( '"%1$s" requires "%2$s" version %3$s or greater.', 'fmpress-forms' ),
 				self::PLUGIN_NAME,
 				'Contact Form 7',
 				$cf7_version
@@ -393,7 +392,7 @@ final class FMPress_Forms {
 		if ( did_action( 'fmpress_forms_loaded' ) && did_action( 'fmpress_forms_pro_loaded' ) ) {
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: FMPress Pro */
-				__( '"%1$s" and "%2$s" cannot be activated simultaneously.', 'emic-fmpress-forms' ),
+				__( '"%1$s" and "%2$s" cannot be activated simultaneously.', 'fmpress-forms' ),
 				'FMPress Forms',
 				self::PLUGIN_NAME
 			);
@@ -415,7 +414,7 @@ final class FMPress_Forms {
 		if ( did_action( 'fmpress_forms_pro_loaded' ) && ! did_action( 'fmpress_connect_loaded' ) ) {
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: FMPress Pro */
-				__( '"%1$s" requires "%2$s" to be installed and activated.', 'emic-fmpress-forms' ),
+				__( '"%1$s" requires "%2$s" to be installed and activated.', 'fmpress-forms' ),
 				self::PLUGIN_NAME,
 				'FMPress Pro'
 			);
@@ -437,7 +436,7 @@ final class FMPress_Forms {
 		if ( did_action( 'fmpress_forms_loaded' ) && did_action( 'fmpress_connect_loaded' ) ) {
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: FMPress Pro */
-				__( '"%1$s" and "%2$s" cannot be activated simultaneously.', 'emic-fmpress-forms' ),
+				__( '"%1$s" and "%2$s" cannot be activated simultaneously.', 'fmpress-forms' ),
 				'FMPress Forms',
 				'FMPress Pro'
 			);

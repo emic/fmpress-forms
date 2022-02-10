@@ -136,7 +136,7 @@ final class Forms {
 			$posted_data = $submission->get_posted_data();
 		} else {
 			return Utils::generate_wp_error(
-				__( 'Could not get submission of Contact Form 7.', 'emic-fmpress-forms' ),
+				__( 'Could not get submission of Contact Form 7.', 'fmpress-forms' ),
 				'Forms'
 			);
 		}
@@ -190,7 +190,7 @@ final class Forms {
 			// Update mode.
 			if ( false === Core\Utils::is_member_page() ) {
 				return Utils::generate_wp_error(
-					__( 'This page is not a member page, so the update mode is not available.', 'emic-fmpress-forms' ),
+					__( 'This page is not a member page, so the update mode is not available.', 'fmpress-forms' ),
 					'Forms'
 				);
 			}
@@ -220,7 +220,7 @@ final class Forms {
 	}
 
 	/**
-	 * If an error occurs, do not send the email
+	 * Determine whether to send mail
 	 *
 	 * @since 1.0.0
 	 * @access public
@@ -229,6 +229,16 @@ final class Forms {
 	 * @return bool
 	 */
 	public function set_skip_mail( $skip_mail, $contact_form ) {
+		// Get the additional settings.
+		// Check the setting to not send email.
+		if ( $contact_form->is_true( 'skip_mail' ) ) {
+			return true;
+		} elseif ( $contact_form->is_true( 'demo_mode' ) ) {
+			return true;
+		}
+
+		// An error occurred on the database server.
+		// Do not send email.
 		if ( is_wp_error( $this->result ) ) {
 			return true;
 		}
@@ -259,13 +269,13 @@ final class Forms {
 				$result['status']  = 'invalid';
 				$result['message'] = __(
 					'Timeout has occurred. Please try again.',
-					'emic-fmpress-forms'
+					'fmpress-forms'
 				);
 				session_destroy();
 			} else {
 				$message = __(
 					'An error has occurred. Please contact the system administrator.',
-					'emic-fmpress-forms'
+					'fmpress-forms'
 				);
 
 				$result['status']  = 'aborted';
