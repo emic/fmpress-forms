@@ -106,7 +106,7 @@ final class Admin {
 
 		printf(
 			'<input type="radio" id="modeCreate" name="%3$s" value="%1$s"%5$s>' .
-			'<label for="modeCreate">%4$s</label>',
+			'<label for="modeCreate" style="padding-right: 0.5em;">%4$s</label>',
 			esc_attr( 1 ),
 			esc_html__( 'Mode', 'fmpress-forms' ),
 			esc_attr( $field_name ),
@@ -202,7 +202,8 @@ final class Admin {
 	 */
 	private function assign_fields_section( $contact_form ) {
 		echo '<hr style="margin: 1em 0 2em;">',
-			'<h2>', esc_html__( 'Assign fields', 'fmpress-forms' ), '</h2>','<table class="table fmpress-admin-table"><tbody>';
+			'<h2>', esc_html__( 'Assign fields', 'fmpress-forms' ), '</h2>','<table class="table fmpress-admin-table"><tbody>',
+			'<p><small>', esc_html__( 'To specify fields, you must add fm_field- as a prefix to the beginning of the form-tag name in the Form tab panel. (e.g. fm_field-company_name)', 'fmpress-forms' ), '</small></p>';
 
 		// Generate fields for field assignment.
 		$mailtags = $contact_form->collect_mail_tags();

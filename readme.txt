@@ -3,7 +3,7 @@ Contributors: emiccorp, matsuoatsushi
 Tags: claris, filemaker, database, contact form 7, form
 Requires at least: 5.7
 Tested up to: 5.9
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -57,6 +57,13 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 == Screenshots ==
 
 == Changelog ==
+
+= 1.0.2 =
+Release Date: February 21, 2022
+
+* Support demo_mode and skip_mail for Additional Settings of Contact Form 7
+* Rename translation files to modify the text domain
+* Improve compatibility with FMPress Pro
 
 = 1.0.1 =
 Release Date: December 6, 2021

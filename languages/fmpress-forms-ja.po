@@ -24,6 +24,9 @@ msgstr "データソースの追加"
 msgid "Assign fields"
 msgstr "フィールドの割り当て"
 
+msgid "To specify fields, you must add fm_field- as a prefix to the beginning of the form-tag name in the Form tab panel. (e.g. fm_field-company_name)"
+msgstr "フィールドを指定するには、フォームタブにおいてフォームタグ名の先頭に接頭辞として fm_field- を追加する必要があります。（例: fm_field-company_name ）"
+
 msgid "Cancel"
 msgstr "キャンセル"
 
