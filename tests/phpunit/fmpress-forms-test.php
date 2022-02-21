@@ -66,7 +66,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_plugin_version() {
-		$this->assertEquals( '1.0.1', self::$plugin::VERSION );
+		$this->assertEquals( '1.0.2', self::$plugin::VERSION );
 
 		$droot = 'true' === getenv( 'GITLAB_CI' ) ? '/home/wordpress' : '/var/www/html';
 		$data = get_plugin_data("${droot}/wp-content/plugins/fmpress-forms/fmpress-forms.php");
@@ -101,21 +101,6 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * 翻訳ファイルがロードできるかテスト：emic-fmpress-connect
-	 *
-	 * @return void
-	 */
-	public function test_textdomain_fmpress_connect() {
-		add_filter( 'locale', array( $this, 'filter_set_locale_to_ja' ) );
-		load_textdomain( 'emic-fmpress-connect', FMPRESS_FORMS_PLUGIN_DIR . '/languages/emic-fmpress-connect-ja.mo' );
-
-		$this->assertEquals( get_locale(), 'ja' );
-		$this->assertTrue( is_textdomain_loaded( 'emic-fmpress-connect' ) );
-		$this->assertSame( __( 'Reiwa', 'emic-fmpress-connect' ), '令和' );
-		unload_textdomain( 'emic-fmpress-connect' );
-	}
-
-	/**
 	 * 翻訳ファイルがロードできるかテスト：fmpress-forms
 	 *
 	 * @return void
@@ -126,7 +111,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 
 		$this->assertEquals( get_locale(), 'ja' );
 		$this->assertTrue( is_textdomain_loaded( 'fmpress-forms' ) );
-		$this->assertSame( __( 'Relationship', 'fmpress-forms' ), 'リレーションシップ' );
+		$this->assertSame( 'リレーションシップ', __( 'Relationship', 'fmpress-forms' ) );
 		unload_textdomain( 'fmpress-forms' );
 	}
 
