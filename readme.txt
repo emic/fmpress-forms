@@ -56,6 +56,9 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 
 == Screenshots ==
 
+1. Edit Datasource on the WordPress admin screen
+2. "FMPress" tab on the Contact Form 7's Admin Screen
+
 == Changelog ==
 
 = 1.0.2 =
