@@ -20,15 +20,17 @@ final class Admin {
 	 * Class constructor
 	 */
 	public function __construct() {
-		if ( version_compare( WPCF7_VERSION, '5.5.3', '>=' ) ) {
-			add_filter( 'wpcf7_pre_construct_contact_form_properties', array( $this, 'add_fmpress_property' ), 10, 2 );
-		} else {
-			add_filter( 'wpcf7_contact_form_properties', array( $this, 'add_fmpress_property' ), 10, 2 );
-		}
+		if ( defined( 'WPCF7_VERSION' ) ) {
+			if ( version_compare( WPCF7_VERSION, '5.5.3', '>=' ) ) {
+				add_filter( 'wpcf7_pre_construct_contact_form_properties', array( $this, 'add_fmpress_property' ), 10, 2 );
+			} else {
+				add_filter( 'wpcf7_contact_form_properties', array( $this, 'add_fmpress_property' ), 10, 2 );
+			}
 
-		if ( is_admin() ) {
-			add_filter( 'wpcf7_editor_panels', array( $this, 'add_fmpress_tab' ) );
-			add_action( 'wpcf7_save_contact_form', array( $this, 'save_fmpress_settings' ), 10, 3 );
+			if ( is_admin() ) {
+				add_filter( 'wpcf7_editor_panels', array( $this, 'add_fmpress_tab' ) );
+				add_action( 'wpcf7_save_contact_form', array( $this, 'save_fmpress_settings' ), 10, 3 );
+			}
 		}
 	}
 
