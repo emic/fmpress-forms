@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FMPress Forms\n"
 "POT-Creation-Date: 2021-10-14 17:32+0900\n"
-"PO-Revision-Date: 2021-10-14 17:38+0900\n"
+"PO-Revision-Date: 2022-05-04 04:21+0900\n"
 "Last-Translator: \n"
 "Language-Team: Emic Corporation\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-Basepath: ../..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-KeywordsList: __;_e;esc_html__;esc_attr__\n"
@@ -17,7 +17,6 @@ msgstr ""
 "X-Poedit-SearchPath-0: fmpress-forms\n"
 
 # FMPress Forms
-
 msgid "Add new datasource"
 msgstr "データソースの追加"
 
@@ -116,8 +115,8 @@ msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr "\"%1$s\" プラグインは、 \"%2$s\" のバージョン %3$s 以降の利用が必要です。"
 
 #, php-format
-msgid "Requires %1$s in %2$s file."
-msgstr "%1$s プラグインの起動には %2$s プラグインの有効化が必要です。"
+msgid "Requires %1$s in \"%2$s\" file."
+msgstr "\"%2$s\" ファイルに「%1$s」を追加する必要があります。"
 
 #, php-format
 msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
