@@ -2,7 +2,7 @@
 Contributors: emiccorp, matsuoatsushi
 Tags: claris, filemaker, database, contact form 7, form
 Requires at least: 5.7
-Tested up to: 5.9
+Tested up to: 6.0
 Stable tag: 1.0.2
 Requires PHP: 7.4
 License: GPLv2 or later
