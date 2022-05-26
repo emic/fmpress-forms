@@ -2,8 +2,8 @@
 Contributors: emiccorp, matsuoatsushi
 Tags: claris, filemaker, database, contact form 7, form
 Requires at least: 5.7
-Tested up to: 5.9
-Stable tag: 1.0.2
+Tested up to: 6.0
+Stable tag: 1.1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -56,7 +56,17 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 
 == Screenshots ==
 
+1. Edit Datasource on the WordPress admin screen
+2. "FMPress" tab on the Contact Form 7's Admin Screen
+
 == Changelog ==
+
+= 1.1.0 =
+Release Date: May 26, 2022
+
+* Add support for uploading a file into a container field
+* Fix loading translation files
+* Suppress warning messages when Contact Form 7 is disabled
 
 = 1.0.2 =
 Release Date: February 21, 2022

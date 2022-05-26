@@ -109,6 +109,7 @@ abstract class Database {
 	/**
 	 * Set connection info for datasource
 	 *
+	 * @since 1.0.0
 	 * @param array  $datasource .
 	 * @param string $layout .
 	 */
@@ -122,6 +123,7 @@ abstract class Database {
 	/**
 	 * Set auth strings
 	 *
+	 * @since 1.0.0
 	 * @param string $auth_strings .
 	 */
 	public function set_auth_strings( $auth_strings ) {
@@ -131,6 +133,7 @@ abstract class Database {
 	/**
 	 * Get auth strings
 	 *
+	 * @since 1.0.0
 	 * @return void|string
 	 */
 	public function get_auth_strings() {
@@ -148,6 +151,7 @@ abstract class Database {
 	/**
 	 * Get token from FileMaker Server
 	 *
+	 * @since 1.0.0
 	 * @param bool $force_update .
 	 * @return object|void|bool
 	 */
@@ -215,6 +219,7 @@ abstract class Database {
 	/**
 	 * Create record.
 	 *
+	 * @since 1.0.0
 	 * @param array $field_data Layout name.
 	 * @return object|array
 	 */
@@ -251,8 +256,80 @@ abstract class Database {
 	}
 
 	/**
+	 * Upload file to container.
+	 *
+	 * @since 1.1.0
+	 * @param string $layout Layout name.
+	 * @param string $record_id  Record id.
+	 * @param string $key        Input element name.
+	 * @param string $field_name Field name.
+	 * @param string $file_path  File path.
+	 * @param int    $repetition Field repetition.
+	 * @return void|object|array
+	 */
+	public function upload( $layout, $record_id, $key, $field_name, $file_path, $repetition = 1 ) {
+		// Get parameters of upload file.
+		if ( isset( $_FILES[ $key ]['name'] ) && isset( $_FILES[ $key ]['tmp_name'] ) ) {
+			$file_name = sanitize_file_name( wp_unslash( $_FILES[ $key ]['name'] ) );
+		} else {
+			return;
+		}
+
+		// Generate uri.
+		$uri = $this->generate_base_uri() . sprintf(
+			'layouts/%s/records/%s/containers/%s/%s/',
+			$layout,
+			$record_id,
+			$field_name,
+			$repetition
+		);
+
+		// Get contents from file.
+		$contents = $this->get_contents( $file_path );
+		if ( false === $contents ) {
+			return Utils::generate_wp_error(
+				__( 'Upload file is missing.', 'emic-fmpress-connect' )
+			);
+		}
+
+		$boundary = 'FMPress_Connect_UploadFile-' . uniqid();
+		$lb       = chr( 13 ) . chr( 10 );
+		$body     = sprintf(
+			'--%1$s%4$sContent-Disposition: form-data; name="upload"; filename="%2$s"%4$s%4$s%3$s%4$s%4$s--%1$s--%4$s',
+			$boundary,
+			esc_attr( trim( preg_replace( '/\r|\n/', '', $file_name ) ) ),
+			$contents,
+			$lb
+		);
+
+		// Send request.
+		$request_params = array(
+			'method'       => 'POST',
+			'uri'          => $uri,
+			'options'      => array( 'body' => $body ),
+			'content_type' => 'multipart/form-data; boundary=' . $boundary,
+		);
+		$response       = $this->request( $request_params );
+
+		// Error handling.
+		if ( is_wp_error( $response ) ) {
+			// WordPress error.
+			return $response;
+		} elseif ( 200 !== $response['response']['code'] ) {
+			// FileMaker Server error.
+			return $this->generate_wp_error( $response );
+		}
+
+		// Generate result.
+		$result = $this->generate_result( $response );
+
+		return $result;
+	}
+
+	/**
 	 * Display Errors of WordPress
 	 *
+	 * @since 1.0.0
 	 * @param string|object $response Response.
 	 */
 	public function display_wp_errors( $response ) {
@@ -270,6 +347,7 @@ abstract class Database {
 	/**
 	 * Generate result data
 	 *
+	 * @since 1.0.0
 	 * @param bool|object $response Response.
 	 * @return array
 	 */
@@ -291,6 +369,7 @@ abstract class Database {
 	/**
 	 * Get record id from response
 	 *
+	 * @since 1.0.0
 	 * @param array $response Response.
 	 * @return string|null
 	 */
@@ -305,6 +384,7 @@ abstract class Database {
 	/**
 	 * Generate key for cache array
 	 *
+	 * @since 1.0.0
 	 * @param array $query Database query.
 	 * @return string|false
 	 */
@@ -316,11 +396,12 @@ abstract class Database {
 	/**
 	 * Read contents from file
 	 *
+	 * @since 1.0.0
 	 * @param string $file_path Filepath.
 	 * @return string|false
 	 */
 	private function get_contents( $file_path ) {
-		if ( file_exists( $file_path ) && is_uploaded_file( $file_path ) ) {
+		if ( file_exists( $file_path ) ) {
 			if ( WP_Filesystem() ) {
 				global $wp_filesystem;
 				return $wp_filesystem->get_contents( $file_path );
@@ -332,6 +413,7 @@ abstract class Database {
 	/**
 	 * Get auth info strings
 	 *
+	 * @since 1.0.0
 	 * @return object|string
 	 */
 	private function get_datasource_auth_strings() {
@@ -348,6 +430,7 @@ abstract class Database {
 	/**
 	 * Get auth info from custom post
 	 *
+	 * @since 1.0.0
 	 * @return object|array
 	 */
 	private function get_datasource_auth_info() {
@@ -384,6 +467,7 @@ abstract class Database {
 	/**
 	 * Generate WP_Error object
 	 *
+	 * @since 1.0.0
 	 * @param array $response .
 	 * @return object
 	 */
@@ -429,6 +513,7 @@ abstract class Database {
 	/**
 	 * Concat error message and error code
 	 *
+	 * @since 1.0.0
 	 * @param string $message .
 	 * @param string $code .
 	 * @return string

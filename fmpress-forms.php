@@ -3,7 +3,7 @@
  * Plugin Name: FMPress Forms
  * Plugin URI: https://www.emic.co.jp/products/
  * Description: Addon for Contact Form 7.
- * Version: 1.0.2
+ * Version: 1.1.0
  * Author: Emic Corporation
  * Author URI: https://www.emic.co.jp/
  * License: GPLv2 or later
@@ -42,7 +42,7 @@ final class FMPress_Forms {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.0.2';
+	const VERSION = '1.1.0';
 
 	/**
 	 * Minimum Version of PHP
@@ -82,7 +82,7 @@ final class FMPress_Forms {
 		load_plugin_textdomain(
 			'fmpress-forms',
 			false,
-			basename( dirname( __FILE__ ) ) . '/languages'
+			dirname( plugin_basename( __FILE__ ) ) . '/languages'
 		);
 	}
 
@@ -290,7 +290,7 @@ final class FMPress_Forms {
 		if ( version_compare( PHP_VERSION, $php_version, '<' ) ) {
 			$message = sprintf(
 				/* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-				__( '"%1$s" requires "%2$s" version %3$s or greater.', 'emic-fmpress-connect' ),
+				__( '"%1$s" requires "%2$s" version %3$s or greater.', 'fmpress-forms' ),
 				self::PLUGIN_NAME,
 				'PHP',
 				$php_version
@@ -316,7 +316,7 @@ final class FMPress_Forms {
 
 			$message = sprintf(
 				/* translators: 1: constant 2: value */
-				__( 'Requires %1$s in %2$s file.', 'emic-fmpress-connect' ),
+				__( 'Requires %1$s in "%2$s" file.', 'fmpress-forms' ),
 				'define( \'' . $name . '\', \'' . $value . '\' );',
 				'wp-config.php'
 			);
@@ -345,7 +345,7 @@ final class FMPress_Forms {
 
 			$message = sprintf(
 				/* translators: 1: constant 2: value */
-				__( 'Requires %1$s in %2$s file.', 'emic-fmpress-connect' ),
+				__( 'Requires %1$s in "%2$s" file.', 'fmpress-forms' ),
 				'define( \'' . $name . '\', \'' . $value . '\' );',
 				'wp-config.php'
 			);
