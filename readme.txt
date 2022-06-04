@@ -28,7 +28,7 @@ provided by Claris International Inc.
 To run FMPress Forms we recommend your host supports:
 - Contact Form 7 version 5.5 or greater.
 - PHP version 7.4 or greater.
-- Claris FileMaker Server version 19 or greater.
+- Claris FileMaker Server version 19.1 or greater.
 - HTTPS support
 
 == Installation ==
