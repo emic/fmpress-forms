@@ -66,7 +66,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_plugin_version() {
-		$this->assertEquals( '1.0.2', self::$plugin::VERSION );
+		$this->assertEquals( '1.1.0', self::$plugin::VERSION );
 
 		$droot = 'true' === getenv( 'GITLAB_CI' ) ? '/home/wordpress' : '/var/www/html';
 		$data = get_plugin_data("${droot}/wp-content/plugins/fmpress-forms/fmpress-forms.php");
