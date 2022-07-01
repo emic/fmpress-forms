@@ -61,6 +61,11 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 
 == Changelog ==
 
+= 1.2.0 =
+(In development)
+
+* Fix saving an encrypted password when the value of FMPRESS_CONNECT_ENCRYPT_KEY or FMPRESS_CONNECT_ENCRYPT_IV is invalid
+
 = 1.1.0 =
 Release Date: May 26, 2022
 
