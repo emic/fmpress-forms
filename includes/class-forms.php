@@ -526,6 +526,20 @@ final class Forms {
 			}
 		}
 
+		// Get data of special mail tags.
+		foreach ( FMPress_Forms::CF7_SPECAIL_MAIL_TAGS as $tagname ) {
+			$mail_tag = new \WPCF7_MailTag( sprintf( '[%s]', $tagname ), $tagname, '' );
+			if ( isset( $cf7_settings['fields'][ $tagname ] ) ) {
+				$field = $cf7_settings['fields'][ $tagname ];
+				if ( '' !== $field ) {
+					$value = apply_filters( 'wpcf7_special_mail_tags', null, $tagname, false, $mail_tag );
+					if ( ! is_null( $value ) ) {
+						$result[ $field ] = $value;
+					}
+				}
+			}
+		}
+
 		if ( did_action( 'fmpress_forms_pro_loaded' ) ) {
 			if ( '1' === $cf7_settings['form_mode'] && ! empty( $cf7_settings['external_table_key_field'] ) ) {
 				// Create mode.

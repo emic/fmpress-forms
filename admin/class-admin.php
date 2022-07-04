@@ -243,8 +243,9 @@ final class Admin {
 			'<p><small>', esc_html__( 'To specify fields, you must add fm_field- as a prefix to the beginning of the form-tag name in the Form tab panel. (e.g. fm_field-company_name)', 'fmpress-forms' ), '</small></p>';
 
 		// Generate fields for field assignment.
+		$this->generate_input( FMPress_Forms::CF7_SPECAIL_MAIL_TAGS, true );
 		$mailtags = $contact_form->collect_mail_tags();
-		$this->generate_input( $mailtags );
+		$this->generate_input( $mailtags, false );
 
 		echo '</tbody></table>';
 	}
@@ -253,13 +254,14 @@ final class Admin {
 	 * Generate and display input tags for field assignment
 	 *
 	 * @param array $mailtags .
+	 * @param bool  $special .
 	 */
-	private function generate_input( $mailtags ) {
+	private function generate_input( $mailtags, $special = false ) {
 		$cf7          = \WPCF7_ContactForm::get_current();
 		$cf7_settings = $cf7->prop( FMPRESS_FORMS_CF7_SETTINGS_KEY );
 
 		foreach ( $mailtags as $key => $mailtag ) {
-			if ( self::FM_FIELD_PREFIX === substr( $mailtag, 0, 9 ) ) {
+			if ( str_starts_with( $mailtag, self::FM_FIELD_PREFIX ) || $special ) {
 				// Generate and display input tag.
 				echo '<tr>',
 					'<th>' . esc_html( $mailtag ) . '</th>',
@@ -268,7 +270,7 @@ final class Admin {
 				printf(
 					'<input type="text" id="%1$s" name="%3$s[fields][%1$s]" value="%2$s">',
 					esc_attr( $mailtag ),
-					esc_attr( $cf7_settings['fields'][ $mailtag ] ),
+					esc_attr( $cf7_settings['fields'][ $mailtag ] ?? '' ),
 					esc_attr( FMPRESS_FORMS_CF7_SETTINGS_KEY )
 				);
 

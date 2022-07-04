@@ -61,6 +61,17 @@ final class FMPress_Forms {
 	const MINIMUM_CF7_VERSION = '5.5';
 
 	/**
+	 * Special Mail Tags of Contact Form 7
+	 *
+	 * @since 1.2.0
+	 * @var array
+	 */
+	const CF7_SPECAIL_MAIL_TAGS = array(
+		'_remote_ip',
+		'_user_agent',
+	);
+
+	/**
 	 * Class constructor
 	 *
 	 * @since 1.0.0
