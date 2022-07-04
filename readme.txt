@@ -64,6 +64,7 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 = 1.2.0 =
 (In development)
 
+* Add support for executing a FileMaker script
 * Fix saving an encrypted password when the value of FMPRESS_CONNECT_ENCRYPT_KEY or FMPRESS_CONNECT_ENCRYPT_IV is invalid
 
 = 1.1.0 =

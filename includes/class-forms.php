@@ -207,7 +207,8 @@ final class Forms {
 			$this->result = $this->update_form->update( $fmdapi, $format_posted_data );
 		} elseif ( $create && '1' === $cf7_settings['form_mode'] ) {
 			// Create mode.
-			$this->create( $fmdapi, $format_posted_data );
+			$script_name = $cf7_settings['fm_script'] ?? '';
+			$this->create( $fmdapi, $format_posted_data, array( $script_name, '' ) );
 
 			if ( ! is_wp_error( $this->create_record ) &&
 				count( $_FILES ) > 0 &&
@@ -412,9 +413,17 @@ final class Forms {
 	 * @access private
 	 * @param object $fmdapi .
 	 * @param array  $format_posted_data .
+	 * @param array  $script .
 	 */
-	private function create( $fmdapi, $format_posted_data ) {
-		$this->create_record = $fmdapi->create( $format_posted_data );
+	private function create( $fmdapi, $format_posted_data, $script = null ) {
+		if ( ! is_null( $script ) && is_array( $script ) && '' !== $script[0] ) {
+			// Perform script.
+			$script = array(
+				'script' => $script[0],
+			);
+		}
+
+		$this->create_record = $fmdapi->create( $format_posted_data, $script );
 	}
 
 	/**

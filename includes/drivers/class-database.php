@@ -221,15 +221,21 @@ abstract class Database {
 	 *
 	 * @since 1.0.0
 	 * @param array $field_data Layout name.
+	 * @param array $script .
 	 * @return object|array
 	 */
-	public function create( $field_data ) {
+	public function create( $field_data, $script = null ) {
+		// Add FileMaker native script.
+		$script_params = $this->set_filemaker_script( $script );
+
 		// Generate parameters.
 		$uri  = $this->generate_base_uri() . sprintf(
 			'layouts/%s/records',
 			$this->layout
 		);
-		$body = wp_json_encode( array( 'fieldData' => $field_data ) );
+		$body = wp_json_encode(
+			array_merge( array( 'fieldData' => $field_data ), $script_params )
+		);
 
 		// Send request.
 		$request_params = array(
@@ -462,6 +468,42 @@ abstract class Database {
 			'username' => $username,
 			'password' => $password,
 		);
+	}
+
+	/**
+	 * Set FileMaker native script to request.
+	 * For `HTTP POST` or `HTTP PATCH`
+	 *
+	 * @since 1.2.0
+	 * @param array $script .
+	 * @return array
+	 */
+	protected function set_filemaker_script( $script ) {
+		$script_params = array();
+
+		if ( is_null( $script ) ) {
+			return $script_params;
+		}
+		if ( ! 'array' === gettype( $script ) ) {
+			return $script_params;
+		}
+
+		$params = array(
+			'script',
+			'script.param',
+			'script.prerequest',
+			'script.prerequest.param',
+			'script.presort',
+			'script.presort.param',
+		);
+
+		foreach ( $params as $key => $param ) {
+			if ( array_key_exists( $param, $script ) && '' !== $script[ $param ] ) {
+				$script_params[ $param ] = $script[ $param ];
+			}
+		}
+
+		return $script_params;
 	}
 
 	/**

@@ -112,6 +112,10 @@ final class Settings {
 				'name' => FMPRESS_CONNECT_NAMEPREFIX . '_fm_layout',
 				'type' => 'input',
 			),
+			'fm_script'     => array(
+				'name' => FMPRESS_CONNECT_NAMEPREFIX . '_fm_script',
+				'type' => 'input',
+			),
 		);
 
 		if ( did_action( 'fmpress_connect_loaded' ) ) {

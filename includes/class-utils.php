@@ -78,6 +78,9 @@ final class Utils {
 	public static function get_custom_field_value( $name, $single = true, $post_id = null ) {
 		if ( is_null( $post_id ) ) {
 			global $post;
+			if ( is_null( $post ) ) {
+				return '';
+			}
 			$post_id = $post->ID;
 		}
 
