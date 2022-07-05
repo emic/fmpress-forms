@@ -301,7 +301,7 @@ abstract class Database {
 		$contents = $this->get_contents( $file_path );
 		if ( false === $contents ) {
 			return Utils::generate_wp_error(
-				__( 'Upload file is missing.', 'emic-fmpress-connect' )
+				__( 'An error occurred while uploading a file.', 'fmpress-forms' )
 			);
 		}
 

@@ -2,16 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FMPress Forms\n"
 "POT-Creation-Date: 2021-10-14 17:32+0900\n"
-"PO-Revision-Date: 2022-05-04 04:21+0900\n"
+"PO-Revision-Date: 2022-07-05 11:51+0900\n"
 "Last-Translator: \n"
 "Language-Team: Emic Corporation\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
-"X-Poedit-Basepath: ../..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.1\n"
+"X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: __;_e;esc_html__;esc_attr__\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: fmpress-forms\n"
@@ -20,11 +20,14 @@ msgstr ""
 msgid "Add new datasource"
 msgstr "データソースの追加"
 
+msgid "AES-256-GCM is not available."
+msgstr "AES-256-GCM モードを使用できません。"
+
+msgid "An error occurred while uploading a file."
+msgstr "ファイルをアップロード中にエラーが発生しました。"
+
 msgid "Assign fields"
 msgstr "フィールドの割り当て"
-
-msgid "To specify fields, you must add fm_field- as a prefix to the beginning of the form-tag name in the Form tab panel. (e.g. fm_field-company_name)"
-msgstr "フィールドを指定するには、フォームタブにおいてフォームタグ名の先頭に接頭辞として fm_field- を追加する必要があります。（例: fm_field-company_name ）"
 
 msgid "Cancel"
 msgstr "キャンセル"
@@ -35,6 +38,9 @@ msgstr "データソースの選択"
 msgid "Choose driver"
 msgstr "選択"
 
+msgid "Claris ID refresh token"
+msgstr "Claris ID 更新トークン"
+
 msgid "Click here for documentation."
 msgstr "ドキュメントはこちらをご覧ください。"
 
@@ -42,7 +48,7 @@ msgid "Connection test"
 msgstr "接続テスト"
 
 msgid "Could not get submission of Contact Form 7."
-msgstr "コンタクトフォーム7のサブミッションを取得できませんでした。"
+msgstr "Contact Form 7 のデータを取得できませんでした。"
 
 msgid "Create"
 msgstr "作成"
@@ -71,6 +77,9 @@ msgstr "データソースの編集"
 msgid "foreign key field"
 msgstr "外部キーフィールド"
 
+msgid "Form mode"
+msgstr "動作モード"
+
 msgid "Hide"
 msgstr "隠す"
 
@@ -84,35 +93,66 @@ msgid "Password"
 msgstr "パスワード"
 
 msgid "Post ID is not included."
-msgstr "投稿IDが含まれていませんでした。"
+msgstr "投稿IDが含まれていません。"
 
 msgid "Relationship"
 msgstr "リレーションシップ"
 
+msgid "Script"
+msgstr "スクリプト"
+
 msgid "Server"
 msgstr "サーバー"
+
+msgid "Set Claris ID refresh token"
+msgstr "Claris ID 更新トークンのセット"
 
 msgid "Set password"
 msgstr "パスワードのセット"
 
+msgid "Settings"
+msgstr "設定"
+
 msgid "Show datasource"
 msgstr "データソースの表示"
+
+msgid "The OpenSSL extension is not installed, or openssl_encrypt() is not available."
+msgstr "OpenSSL 拡張モジュールがインストールされていないか openssl_encrypt 関数を使用できません。"
+
+msgid "The value of FMPRESS_CONNECT_ENCRYPT_IV in wp-config.php is invalid for some reason. Please flush PHP OPcache if Opcache is enabled."
+msgstr "何らかの理由により wp-config.php ファイルに定義されている FMPRESS_CONNECT_ENCRYPT_IV の値が無効です。PHP OPcacheが有効である場合にはキャッシュをクリアしてください。"
+
+msgid "The value of FMPRESS_CONNECT_ENCRYPT_KEY in wp-config.php is invalid for some reason. Please flush PHP OPcache if Opcache is enabled."
+msgstr "何らかの理由により wp-config.php ファイルに定義されている FMPRESS_CONNECT_ENCRYPT_KEY の値が無効です。PHP OPcacheが有効である場合にはキャッシュをクリアしてください。"
 
 msgid "This page is not a member page, so the update mode is not available."
 msgstr "会員ページではないので更新モードは利用できません。"
 
 msgid "TO name of member table (Optional)"
-msgstr "会員テーブルのTO名（オプション）"
+msgstr "会員テーブルの TO 名（オプション）"
+
+msgid "To specify fields, you must add fm_field- as a prefix to the beginning of the form-tag name in the Form tab panel. (e.g. fm_field-company_name)"
+msgstr "フィールドを指定するには、フォームタブにおいてフォームタグ名の先頭に接頭辞として fm_field- を追加する必要があります。（例: fm_field-company_name ）"
+
+msgid "To use the update mode, you need to use both FMPress Forms plug-in and FMPress Members plug-in."
+msgstr "更新モードを利用するには、FMPress Forms プラグインと FMPress Members Pro プラグインの併用が必要です。"
+
+msgid "To use the update mode, you need to use both FMPress Forms plug-in and FMPress Members Pro plug-in."
+msgstr "更新モードを利用するには、FMPress Forms プラグインと FMPress Members Pro プラグインの併用が必要です。"
 
 msgid "Update"
 msgstr "更新"
 
 msgid "Username"
-msgstr "アカウント"
+msgstr "アカウント名"
 
 #, php-format
 msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr "\"%1$s\" プラグインは、 \"%2$s\" のバージョン %3$s 以降の利用が必要です。"
+
+#, php-format
+msgid "Requires %1$s in %2$s file."
+msgstr "\"%2$s\" ファイルに「%1$s」を追加する必要があります。"
 
 #, php-format
 msgid "Requires %1$s in \"%2$s\" file."
@@ -149,3 +189,6 @@ msgstr "エラーが発生しました。お手数ですがシステム管理者
 
 msgid "Addon for Contact Form 7."
 msgstr "Contact Form 7 のアドオンです。Claris FileMaker のデータベースにレコードを作成してフォームから送信されたデータを保存します。"
+
+msgid "Upload file is missing."
+msgstr "ファイルをアップロード中にエラーが発生しました。"
