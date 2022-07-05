@@ -209,8 +209,8 @@ final class Datasources {
 		// Password.
 		echo sprintf(
 			'<div class="form-field">' .
-			'<label for="%1$s">%2$s</label>' .
-			'<button id="%8$s" type="button" class="button wp-generate-pw hide-if-no-js">%6$s</button>' .
+			'<label for="%1$s" data-labelforserver="%13$s" data-labelforcloud="%14$s">%2$s</label>' .
+			'<button id="%8$s" type="button" class="button wp-generate-pw hide-if-no-js" data-labelforserver="%15$s" data-labelforcloud="%16$s">%6$s</button>' .
 			'<div data-aria="%8$s" class="wp-pwd hide-if-js">' .
 			'<span class="password-input-wrapper">' .
 			'<input id="%1$s" type="%5$s" name="%3$s" class="regular-text strong" value="%4$s" autocomplete="off" style="%7$s">' .
@@ -236,7 +236,11 @@ final class Datasources {
 			esc_attr( 'hideDatabasePassword' ),
 			esc_attr( 'cancelDatabasePassword' ),
 			esc_html__( 'Hide', 'fmpress-forms' ),
-			esc_html__( 'Cancel', 'fmpress-forms' )
+			esc_html__( 'Cancel', 'fmpress-forms' ),
+			esc_attr__( 'Password', 'fmpress-forms' ),
+			esc_attr__( 'Claris ID refresh token', 'fmpress-forms' ),
+			esc_attr__( 'Set password', 'fmpress-forms' ),
+			esc_attr__( 'Set Claris ID refresh token', 'fmpress-forms' ),
 		);
 
 		// Show connection test button.
@@ -413,7 +417,9 @@ final class Datasources {
 		);
 
 		// Generate option elements.
-		foreach ( $this->drivers as $key => $value ) {
+		$drivers = $this->drivers;
+		$drivers = apply_filters( 'fmpress_forms_cf7_load_drivers', $drivers );
+		foreach ( $drivers as $key => $value ) {
 			$selected = (string) $key === $driver_id ? ' selected' : '';
 			printf(
 				'<option value="%1$s"%3$s>%2$s</option>',

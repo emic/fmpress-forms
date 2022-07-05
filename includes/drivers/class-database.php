@@ -153,9 +153,10 @@ abstract class Database {
 	 *
 	 * @since 1.0.0
 	 * @param bool $force_update .
+	 * @param int  $driver_id Driver id.
 	 * @return object|void|bool
 	 */
-	public function get_token( $force_update = false ) {
+	public function get_token( $force_update = false, $driver_id = 1 ) {
 		$datasource = $this->datasource;
 		if ( ! $datasource ) {
 			// Could not get datasource name.
@@ -182,14 +183,20 @@ abstract class Database {
 		$method = 'POST';
 		$uri    = $this->generate_base_uri() . 'sessions';
 
-		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
-		$str = base64_encode(
-			$this->auth_strings
-		);
+		$authorization_header = '';
+		if ( 1 === (int) $driver_id ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
+			$authorization_header = 'Basic ' . base64_encode( $this->auth_strings );
+		} elseif ( 2 === (int) $driver_id ) {
+			$auth_elements        = explode( ':', $this->auth_strings );
+			$refresh_token        = isset( $auth_elements[1] ) ? $auth_elements[1] : '';
+			$token                = apply_filters( 'fmpress_forms_cf7_get_token_for_cloud', $refresh_token );
+			$authorization_header = 'FMID ' . $token;
+		}
 
 		$headers = array(
 			'Content-Type'  => 'application/json',
-			'Authorization' => 'Basic ' . $str,
+			'Authorization' => $authorization_header,
 		);
 
 		// Send request.
@@ -513,7 +520,7 @@ abstract class Database {
 	 * @param array $response .
 	 * @return object
 	 */
-	private function generate_wp_error( $response ) {
+	protected function generate_wp_error( $response ) {
 		$errors = new WP_Error();
 
 		// Add HTTP error.

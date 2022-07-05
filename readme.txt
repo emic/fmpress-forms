@@ -66,6 +66,7 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 
 * Add support for executing a FileMaker script
 * Add support for [_remote_ip] and [_user_agent] of special mail-tags
+* Add compatibility with FMPress CloudAuth
 * Fix saving an encrypted password when the value of FMPRESS_CONNECT_ENCRYPT_KEY or FMPRESS_CONNECT_ENCRYPT_IV is invalid
 
 = 1.1.0 =
