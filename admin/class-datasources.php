@@ -34,7 +34,7 @@ final class Datasources {
 	 * @var object $drivers
 	 */
 	private $drivers = array(
-		'1' => 'FileMaker',
+		'1' => 'FileMaker Server',
 	);
 
 	/**
