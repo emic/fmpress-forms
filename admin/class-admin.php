@@ -134,7 +134,7 @@ final class Admin {
 
 		echo '<p><small>',
 			esc_html__(
-				'To use the update mode, you need to use both FMPress Forms plug-in and FMPress Members Pro plug-in.',
+				'To use the update mode, you need to use both FMPress Forms Pro plug-in and FMPress Members Pro plug-in.',
 				'fmpress-forms'
 			),
 			'</small></p></div>',

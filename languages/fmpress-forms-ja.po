@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FMPress Forms\n"
 "POT-Creation-Date: 2021-10-14 17:32+0900\n"
-"PO-Revision-Date: 2022-07-05 11:51+0900\n"
+"PO-Revision-Date: 2022-07-07 18:11+0900\n"
 "Last-Translator: \n"
 "Language-Team: Emic Corporation\n"
 "Language: ja\n"
@@ -135,10 +135,10 @@ msgid "To specify fields, you must add fm_field- as a prefix to the beginning of
 msgstr "フィールドを指定するには、フォームタブにおいてフォームタグ名の先頭に接頭辞として fm_field- を追加する必要があります。（例: fm_field-company_name ）"
 
 msgid "To use the update mode, you need to use both FMPress Forms plug-in and FMPress Members plug-in."
-msgstr "更新モードを利用するには、FMPress Forms プラグインと FMPress Members Pro プラグインの併用が必要です。"
+msgstr "更新モードを利用するには、FMPress Forms Pro プラグインと FMPress Members Pro プラグインの併用が必要です。"
 
-msgid "To use the update mode, you need to use both FMPress Forms plug-in and FMPress Members Pro plug-in."
-msgstr "更新モードを利用するには、FMPress Forms プラグインと FMPress Members Pro プラグインの併用が必要です。"
+msgid "To use the update mode, you need to use both FMPress Forms Pro plug-in and FMPress Members Pro plug-in."
+msgstr "更新モードを利用するには、FMPress Forms Pro プラグインと FMPress Members Pro プラグインの併用が必要です。"
 
 msgid "Update"
 msgstr "更新"
