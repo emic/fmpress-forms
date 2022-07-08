@@ -123,7 +123,6 @@ final class Forms {
 			add_action( 'wpcf7_before_send_mail', array( $this, 'post' ), 10, 3 );
 			add_action( 'wpcf7_skip_mail', array( $this, 'set_skip_mail' ), 10, 2 );
 			add_filter( 'wpcf7_submission_result', array( $this, 'set_error' ), 10, 2 );
-			add_filter( 'wpcf7_form_elements', array( $this, 'add_custom_data_attr' ), 10, 1 );
 		}
 	}
 
