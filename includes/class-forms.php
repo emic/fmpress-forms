@@ -505,10 +505,6 @@ final class Forms {
 				$group     = $this->get_group_of_field_type( $tag );
 				$raw_value = $posted_data[ $tag->name ];
 
-				if ( '' === $field ) {
-					continue;
-				}
-
 				$value = null;
 				if ( 'multiple' === $group || is_array( $raw_value ) ) {
 					// Multiple values.
