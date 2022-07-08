@@ -8,6 +8,7 @@
 
 namespace Emic\FMPress\Connect;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
 require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Core/Util.php';
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Compat.php';

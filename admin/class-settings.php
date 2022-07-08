@@ -9,6 +9,8 @@
 
 namespace Emic\FMPress\Connect;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
+
 /**
  * Settings.
  */

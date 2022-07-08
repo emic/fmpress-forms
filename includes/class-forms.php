@@ -8,6 +8,7 @@
 
 namespace Emic\FMPress\Forms;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
 use Emic\FMPress\Connect as Core;
 
 /**

@@ -8,6 +8,7 @@
 
 namespace Emic\FMPress\Connect;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
 require_once ABSPATH . 'wp-admin/includes/file.php';
 
 use \WP_Http;
