@@ -241,7 +241,7 @@ final class Datasources {
 			esc_attr__( 'Password', 'fmpress-forms' ),
 			esc_attr__( 'Claris ID refresh token', 'fmpress-forms' ),
 			esc_attr__( 'Set password', 'fmpress-forms' ),
-			esc_attr__( 'Set Claris ID refresh token', 'fmpress-forms' ),
+			esc_attr__( 'Set Claris ID refresh token', 'fmpress-forms' )
 		);
 
 		// Show connection test button.

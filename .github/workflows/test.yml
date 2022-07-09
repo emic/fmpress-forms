@@ -1,0 +1,30 @@
+name: build
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  test-with-wordpress60:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker-run
+        shell: bash
+        run: |
+          docker build -t fmpress-ubuntu .
+          docker run -d --name testcontainer --rm -p 50060:80 fmpress-ubuntu
+
+          docker exec -i testcontainer sh -c "php -v"
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs -i"
+
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs --standard=/fmpress-forms/phpcs.xml --extensions=php /fmpress-forms"
+
+          docker exec -i testcontainer sh -c "/etc/init.d/mysql start &"
+          docker exec -i testcontainer sh -c "find /var/www/html/wp-content/plugins/fmpress-forms/fmpress-forms.php -type f -print0 | xargs -0 sed -i -e "s/'7.4.0'/'7.2.0'/g";"
+          docker exec -i testcontainer sh -c "find /var/www/html/wp-content/plugins/fmpress-forms/tests/phpunit/fmpress-forms-test.php -type f -print0 | xargs -0 sed -i -e "s/'7.4.0'/'7.2.0'/g";"
+
+          docker exec -i testcontainer sh -c "cd /var/www/html/wp-content/plugins/fmpress-forms && ./bin/install-wp-tests.sh wp60 root PASSWORD localhost 6.0 && /vendor/bin/phpunit --bootstrap=tests/phpunit/bootstrap.php tests/phpunit/fmpress-forms-test.php"
+          docker stop testcontainer
+          docker rmi fmpress-ubuntu

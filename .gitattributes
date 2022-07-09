@@ -7,7 +7,10 @@
 # Files
 /.gitattributes export-ignore
 /.gitignore export-ignore
+/Dockerfile export-ignore
 /Gruntfile.js export-ignore
+/composer.json export-ignore
+/composer.lock export-ignore
 /package.json export-ignore
 /phpcs.xml export-ignore
 /phpunit.xml export-ignore

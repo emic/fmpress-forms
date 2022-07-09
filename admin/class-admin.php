@@ -163,7 +163,7 @@ final class Admin {
 		$fmpress_core_admin->add_tabpanel_datasource(
 			$cf7_settings['datasource_id'],
 			$cf7_settings['fm_layout'],
-			false,
+			false
 		);
 	}
 
