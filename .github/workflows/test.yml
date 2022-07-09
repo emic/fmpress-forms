@@ -26,5 +26,3 @@ jobs:
           docker exec -i testcontainer sh -c "find /var/www/html/wp-content/plugins/fmpress-forms/tests/phpunit/fmpress-forms-test.php -type f -print0 | xargs -0 sed -i -e "s/'7.4.0'/'7.2.0'/g";"
 
           docker exec -i testcontainer sh -c "cd /var/www/html/wp-content/plugins/fmpress-forms && ./bin/install-wp-tests.sh wp60 root PASSWORD localhost 6.0 && /vendor/bin/phpunit --bootstrap=tests/phpunit/bootstrap.php tests/phpunit/fmpress-forms-test.php"
-          docker stop testcontainer
-          docker rmi fmpress-ubuntu
