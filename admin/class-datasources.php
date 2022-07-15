@@ -418,8 +418,7 @@ final class Datasources {
 		);
 
 		// Generate option elements.
-		$drivers = $this->drivers;
-		$drivers = apply_filters( 'fmpress_forms_cf7_load_drivers', $drivers );
+		$drivers = apply_filters( 'fmpress_forms_cf7_load_drivers', $this->drivers );
 		foreach ( $drivers as $key => $value ) {
 			$selected = (string) $key === $driver_id ? ' selected' : '';
 			printf(

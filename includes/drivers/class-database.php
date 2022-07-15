@@ -259,7 +259,7 @@ abstract class Database {
 			// WordPress error.
 			return $response;
 		} elseif ( 200 !== $response['response']['code'] ) {
-			// FileMaker Server error.
+			// FileMaker error.
 			return $this->generate_wp_error( $response );
 		}
 
@@ -330,7 +330,7 @@ abstract class Database {
 			// WordPress error.
 			return $response;
 		} elseif ( 200 !== $response['response']['code'] ) {
-			// FileMaker Server error.
+			// FileMaker error.
 			return $this->generate_wp_error( $response );
 		}
 
@@ -536,24 +536,27 @@ abstract class Database {
 			);
 		}
 
-		// Add FileMaker Server error.
+		// Add FileMaker error.
 		if ( isset( $response['http_response'] ) ) {
 			$response_object = $response['http_response']->get_response_object();
 			$response_body   = json_decode(
 				$response['http_response']->get_data(),
 				false
 			);
-			$code            = (int) $response_body->messages[0]->code;
 
-			if ( $code > 0 ) {
-				$errors->add(
-					FMPRESS_CONNECT_NAMEPREFIX . '_fms: ' . $response_body->messages[0]->code,
-					'FileMaker Server: ' .
-					$this->concat_error_message(
-						$response_body->messages[0]->message,
-						$response_body->messages[0]->code
-					)
-				);
+			if ( ! is_null( $response_body ) ) {
+				$code = (int) $response_body->messages[0]->code;
+
+				if ( $code > 0 ) {
+					$errors->add(
+						FMPRESS_CONNECT_NAMEPREFIX . '_fms: ' . $response_body->messages[0]->code,
+						'FileMaker Server: ' .
+						$this->concat_error_message(
+							$response_body->messages[0]->message,
+							$response_body->messages[0]->code
+						)
+					);
+				}
 			}
 		}
 

@@ -240,10 +240,18 @@ window.addEventListener('load', function () {
 
     // Show messages.
     function show_message(messages) {
-        var message = '';
-        for (var i = 0; i < messages.length; i++) {
-            message += messages[i] + "\n";
+        if (messages) {
+            var message = '';
+            var idText = 'driver';
+            var el = document.getElementById(idText);
+            for (var i = 0; i < messages.length; i++) {
+                if (el && el.options && typeof el.options[1] !== 'undefined' && typeof el.options[2] !== 'undefined' && el.options[2].selected == true) {
+                    message += messages[i].replace(el.options[1].textContent, el.options[2].textContent) + "\n";
+                } else {
+                    message += messages[i] + "\n";
+                }
+            }
+            window.alert(message);
         }
-        window.alert(message);
     }
 }, false);
