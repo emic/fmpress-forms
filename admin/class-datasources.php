@@ -315,13 +315,15 @@ final class Datasources {
 			$message = __( 'The OpenSSL extension is not installed, or openssl_encrypt() is not available.', 'fmpress-forms' );
 		} elseif ( ! \ParagonIE_Sodium_Compat::crypto_aead_aes256gcm_is_available() ) {
 			$message = __( 'AES-256-GCM is not available.', 'fmpress-forms' );
-		} elseif ( \ParagonIE_Sodium_Core_Util::strlen( FMPRESS_CONNECT_ENCRYPT_KEY )
-			!== \ParagonIE_Sodium_Compat::CRYPTO_AEAD_AES256GCM_KEYBYTES ) {
+		} elseif ( defined( 'FMPRESS_CONNECT_ENCRYPT_KEY' ) &&
+			\ParagonIE_Sodium_Core_Util::strlen( FMPRESS_CONNECT_ENCRYPT_KEY )
+				!== \ParagonIE_Sodium_Compat::CRYPTO_AEAD_AES256GCM_KEYBYTES ) {
 			$message = __( 'The value of FMPRESS_CONNECT_ENCRYPT_KEY in wp-config.php is invalid for some reason. Please flush PHP OPcache if Opcache is enabled.', 'fmpress-forms' );
-		} elseif ( ! ctype_xdigit( FMPRESS_CONNECT_ENCRYPT_IV ) ) {
+		} elseif ( defined( 'FMPRESS_CONNECT_ENCRYPT_IV' ) && ! ctype_xdigit( FMPRESS_CONNECT_ENCRYPT_IV ) ) {
 			$message = __( 'The value of FMPRESS_CONNECT_ENCRYPT_IV in wp-config.php is invalid for some reason. Please flush PHP OPcache if Opcache is enabled.', 'fmpress-forms' );
-		} elseif ( \ParagonIE_Sodium_Core_Util::strlen( hex2bin( FMPRESS_CONNECT_ENCRYPT_IV ) )
-			!== \ParagonIE_Sodium_Compat::CRYPTO_AEAD_AES256GCM_NPUBBYTES ) {
+		} elseif ( defined( 'FMPRESS_CONNECT_ENCRYPT_IV' ) &&
+			\ParagonIE_Sodium_Core_Util::strlen( hex2bin( FMPRESS_CONNECT_ENCRYPT_IV ) )
+				!== \ParagonIE_Sodium_Compat::CRYPTO_AEAD_AES256GCM_NPUBBYTES ) {
 			$message = __( 'The value of FMPRESS_CONNECT_ENCRYPT_IV in wp-config.php is invalid for some reason. Please flush PHP OPcache if Opcache is enabled.', 'fmpress-forms' );
 		}
 
