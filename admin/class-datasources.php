@@ -287,8 +287,8 @@ final class Datasources {
 	 * @param string $field_name .
 	 */
 	private function save_post_meta( $post_id, $field_name ) {
-		$check = wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' );
-		if ( false === $check ) {
+		if ( ! isset( $_POST['fmpress_forms_nonce'] ) ||
+			! wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' ) ) {
 			return;
 		}
 
@@ -367,8 +367,8 @@ final class Datasources {
 	 * @param string $field_name .
 	 */
 	private function save_post_meta_password( $post_id, $field_name ) {
-		$check = wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' );
-		if ( false === $check ) {
+		if ( ! isset( $_POST['fmpress_forms_nonce'] ) ||
+			! wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' ) ) {
 			return;
 		}
 
