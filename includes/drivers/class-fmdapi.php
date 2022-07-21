@@ -8,6 +8,7 @@
 
 namespace Emic\FMPress\Connect;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
 require_once ABSPATH . 'wp-admin/includes/file.php';
 
 use \WP_Http;
@@ -84,8 +85,15 @@ final class Fmdapi extends Database {
 	 * @return object
 	 */
 	public function request( $request_params, $get_token = false ) {
+		// Detect driver.
+		$driver_id = 1;
+		$host      = wp_parse_url( $request_params['uri'], PHP_URL_HOST );
+		if ( str_ends_with( $host, '.account.filemaker-cloud.com' ) ) {
+			$driver_id = 2;
+		}
+
 		// Get and set token.
-		$token = $this->get_token( $get_token );
+		$token = $this->get_token( $get_token, $driver_id );
 		if ( is_wp_error( $token ) ) {
 			return $token;
 		} elseif ( false === $token ) {
@@ -95,7 +103,7 @@ final class Fmdapi extends Database {
 		}
 
 		// Generate parameters.
-		$params = $this->generate_params_for_request( $request_params, $token );
+		$params = $this->generate_params_for_request( $request_params );
 
 		// Send request.
 		$wp_http  = new WP_Http();

@@ -8,6 +8,7 @@
 
 namespace Emic\FMPress\Connect;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Core/Util.php';
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Compat.php';
 
@@ -78,6 +79,9 @@ final class Utils {
 	public static function get_custom_field_value( $name, $single = true, $post_id = null ) {
 		if ( is_null( $post_id ) ) {
 			global $post;
+			if ( is_null( $post ) ) {
+				return '';
+			}
 			$post_id = $post->ID;
 		}
 

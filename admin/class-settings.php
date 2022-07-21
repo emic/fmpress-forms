@@ -9,6 +9,8 @@
 
 namespace Emic\FMPress\Connect;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
+
 /**
  * Settings.
  */
@@ -112,6 +114,10 @@ final class Settings {
 				'name' => FMPRESS_CONNECT_NAMEPREFIX . '_fm_layout',
 				'type' => 'input',
 			),
+			'fm_script'     => array(
+				'name' => FMPRESS_CONNECT_NAMEPREFIX . '_fm_script',
+				'type' => 'input',
+			),
 		);
 
 		if ( did_action( 'fmpress_connect_loaded' ) ) {
@@ -139,8 +145,8 @@ final class Settings {
 	 * @param string $field_name .
 	 */
 	private function save_post_meta( $post_id, $field_name ) {
-		$check = wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' );
-		if ( false === $check ) {
+		if ( ! isset( $_POST['fmpress_forms_nonce'] ) ||
+			! wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' ) ) {
 			return;
 		}
 
@@ -161,8 +167,8 @@ final class Settings {
 	 * @param string $field_name .
 	 */
 	private function save_post_meta_checkbox( $post_id, $field_name ) {
-		$check = wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' );
-		if ( false === $check ) {
+		if ( ! isset( $_POST['fmpress_forms_nonce'] ) ||
+			! wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' ) ) {
 			return;
 		}
 

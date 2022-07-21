@@ -9,6 +9,7 @@
 
 namespace Emic\FMPress\Connect;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Core/Util.php';
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Compat.php';
 
@@ -34,7 +35,7 @@ final class Datasources {
 	 * @var object $drivers
 	 */
 	private $drivers = array(
-		'1' => 'FileMaker',
+		'1' => 'FileMaker Server',
 	);
 
 	/**
@@ -43,12 +44,13 @@ final class Datasources {
 	public function __construct() {
 		if ( is_admin() ) {
 			add_action( 'init', array( $this, 'init' ) );
-			add_action( 'plugins_loaded', array( $this, 'check_encrypt_constant' ) );
 			add_action( 'admin_menu', array( $this, 'add_custom_fields' ) );
 			add_action( 'admin_menu', array( $this, 'add_submenu' ), 11, 1 );
 			add_action( 'admin_menu', array( $this, 'remove_submenu' ) );
+			add_action( 'admin_notices', array( $this, 'check_constants' ) );
 			add_action( 'save_post', array( $this, 'save_datasource' ) );
 			add_action( 'wp_ajax_connection_test', array( $this, 'connection_test' ) );
+			add_action( 'post_updated_messages', array( $this, 'connect_datasource_updated_messages' ) );
 		}
 	}
 
@@ -208,8 +210,8 @@ final class Datasources {
 		// Password.
 		echo sprintf(
 			'<div class="form-field">' .
-			'<label for="%1$s">%2$s</label>' .
-			'<button id="%8$s" type="button" class="button wp-generate-pw hide-if-no-js">%6$s</button>' .
+			'<label for="%1$s" data-labelforserver="%13$s" data-labelforcloud="%14$s">%2$s</label>' .
+			'<button id="%8$s" type="button" class="button wp-generate-pw hide-if-no-js" data-labelforserver="%15$s" data-labelforcloud="%16$s">%6$s</button>' .
 			'<div data-aria="%8$s" class="wp-pwd hide-if-js">' .
 			'<span class="password-input-wrapper">' .
 			'<input id="%1$s" type="%5$s" name="%3$s" class="regular-text strong" value="%4$s" autocomplete="off" style="%7$s">' .
@@ -235,7 +237,11 @@ final class Datasources {
 			esc_attr( 'hideDatabasePassword' ),
 			esc_attr( 'cancelDatabasePassword' ),
 			esc_html__( 'Hide', 'fmpress-forms' ),
-			esc_html__( 'Cancel', 'fmpress-forms' )
+			esc_html__( 'Cancel', 'fmpress-forms' ),
+			esc_attr__( 'Password', 'fmpress-forms' ),
+			esc_attr__( 'Claris ID refresh token', 'fmpress-forms' ),
+			esc_attr__( 'Set password', 'fmpress-forms' ),
+			esc_attr__( 'Set Claris ID refresh token', 'fmpress-forms' )
 		);
 
 		// Show connection test button.
@@ -250,7 +256,11 @@ final class Datasources {
 	public function save_datasource() {
 		global $post;
 
-		if ( ! isset( $post->ID ) || 'connect_datasource' !== get_post_type( $post ) ) {
+		if ( ! isset( $post->ID ) || get_post_type( $post ) !== $this->custompost_name ) {
+			return;
+		}
+
+		if ( ! is_null( $this->check_constants() ) ) {
 			return;
 		}
 
@@ -277,8 +287,8 @@ final class Datasources {
 	 * @param string $field_name .
 	 */
 	private function save_post_meta( $post_id, $field_name ) {
-		$check = wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' );
-		if ( false === $check ) {
+		if ( ! isset( $_POST['fmpress_forms_nonce'] ) ||
+			! wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' ) ) {
 			return;
 		}
 
@@ -293,14 +303,72 @@ final class Datasources {
 	}
 
 	/**
+	 * Check constants and show notices
+	 *
+	 * @since 1.2.0
+	 * @return null|string
+	 */
+	public function check_constants() {
+		$message = null;
+
+		if ( ! is_callable( 'openssl_encrypt' ) ) {
+			$message = __( 'The OpenSSL extension is not installed, or openssl_encrypt() is not available.', 'fmpress-forms' );
+		} elseif ( ! \ParagonIE_Sodium_Compat::crypto_aead_aes256gcm_is_available() ) {
+			$message = __( 'AES-256-GCM is not available.', 'fmpress-forms' );
+		} elseif ( defined( 'FMPRESS_CONNECT_ENCRYPT_KEY' ) &&
+			\ParagonIE_Sodium_Core_Util::strlen( FMPRESS_CONNECT_ENCRYPT_KEY )
+				!== \ParagonIE_Sodium_Compat::CRYPTO_AEAD_AES256GCM_KEYBYTES ) {
+			$message = __( 'The value of FMPRESS_CONNECT_ENCRYPT_KEY in wp-config.php is invalid for some reason. Please flush PHP OPcache if Opcache is enabled.', 'fmpress-forms' );
+		} elseif ( defined( 'FMPRESS_CONNECT_ENCRYPT_IV' ) && ! ctype_xdigit( FMPRESS_CONNECT_ENCRYPT_IV ) ) {
+			$message = __( 'The value of FMPRESS_CONNECT_ENCRYPT_IV in wp-config.php is invalid for some reason. Please flush PHP OPcache if Opcache is enabled.', 'fmpress-forms' );
+		} elseif ( defined( 'FMPRESS_CONNECT_ENCRYPT_IV' ) &&
+			\ParagonIE_Sodium_Core_Util::strlen( hex2bin( FMPRESS_CONNECT_ENCRYPT_IV ) )
+				!== \ParagonIE_Sodium_Compat::CRYPTO_AEAD_AES256GCM_NPUBBYTES ) {
+			$message = __( 'The value of FMPRESS_CONNECT_ENCRYPT_IV in wp-config.php is invalid for some reason. Please flush PHP OPcache if Opcache is enabled.', 'fmpress-forms' );
+		}
+
+		if ( 'admin_notices' === current_action() ) {
+			$screen = get_current_screen();
+			if ( $this->custompost_name === $screen->post_type && 'post' === $screen->base ) {
+				if ( ! is_null( $message ) ) {
+					echo '<div class="error"><p>',
+						esc_html( $message ),
+						'</p></div>', PHP_EOL;
+				}
+			}
+		}
+
+		return $message;
+	}
+
+	/**
+	 * Update messages
+	 *
+	 * @since 1.2.0
+	 * @param array $messages .
+	 * @return array
+	 */
+	public function connect_datasource_updated_messages( $messages ) {
+		$screen = get_current_screen();
+		if ( $this->custompost_name === $screen->post_type ) {
+			if ( ! is_null( $this->check_constants() ) ) {
+				// Hide admin notices ('Post published.', 'Post updated.').
+				$messages[ $this->custompost_name ][1] = '';
+			}
+		}
+
+		return $messages;
+	}
+
+	/**
 	 * Save password
 	 *
 	 * @param int    $post_id .
 	 * @param string $field_name .
 	 */
 	private function save_post_meta_password( $post_id, $field_name ) {
-		$check = wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' );
-		if ( false === $check ) {
+		if ( ! isset( $_POST['fmpress_forms_nonce'] ) ||
+			! wp_verify_nonce( $_POST['fmpress_forms_nonce'], 'fmpress_forms' ) ) {
 			return;
 		}
 
@@ -317,12 +385,15 @@ final class Datasources {
 		}
 
 		if ( defined( 'FMPRESS_CONNECT_ENCRYPT_KEY' ) && defined( 'FMPRESS_CONNECT_ENCRYPT_IV' ) ) {
-			$ciphertext = \ParagonIE_Sodium_Compat::crypto_aead_aes256gcm_encrypt(
+			$tag        = '';
+			$ciphertext = openssl_encrypt(
 				$form_value,
-				'',
+				'aes-256-gcm',
+				FMPRESS_CONNECT_ENCRYPT_KEY,
+				OPENSSL_RAW_DATA,
 				hex2bin( FMPRESS_CONNECT_ENCRYPT_IV ),
-				FMPRESS_CONNECT_ENCRYPT_KEY
-			);
+				$tag
+			) . $tag;
 
 			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
 			update_post_meta( $post_id, $field_name, base64_encode( $ciphertext ) );
@@ -349,7 +420,8 @@ final class Datasources {
 		);
 
 		// Generate option elements.
-		foreach ( $this->drivers as $key => $value ) {
+		$drivers = apply_filters( 'fmpress_forms_cf7_load_drivers', $this->drivers );
+		foreach ( $drivers as $key => $value ) {
 			$selected = (string) $key === $driver_id ? ' selected' : '';
 			printf(
 				'<option value="%1$s"%3$s>%2$s</option>',

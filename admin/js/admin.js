@@ -2,6 +2,9 @@ window.addEventListener('load', function () {
     // Testing the connection of data source.
     connectionTest();
 
+    // Update input user interface.
+    updateInputUserInterface();
+
     var selector = '#fmpressConnectSettings .category-tabs li a';
     var el = document.querySelectorAll(selector);
     for (var i = 0; i < el.length; i++) {
@@ -10,6 +13,13 @@ window.addEventListener('load', function () {
             fmpressConnectHideTabs();
             fmpressConnectShowTab(this);
         });
+    }
+
+    // Add event listner for driver.
+    var idText = 'driver';
+    var el = document.getElementById(idText);
+    if (el) {
+        el.addEventListener('change', updateInputUserInterface, false);
     }
 
     // Display the password entry area for the data source.
@@ -59,6 +69,50 @@ window.addEventListener('load', function () {
         var targetId = el.getAttribute('href');
         var el = document.querySelector(targetId);
         el.style.display = 'block';
+    }
+
+    // Change input user interface.
+    function updateInputUserInterface() {
+        var idText = 'driver';
+        var el = document.getElementById(idText);
+        if (el && el.options && typeof el.options[1] !== 'undefined' && el.options[1].selected == true) {
+            var selector = 'label[for="databaseUsername"]';
+            var el = document.querySelector(selector);
+            if (el) {
+                el.parentNode.style.display = 'block';
+            }
+
+            var selector = 'label[for="databasePassword"]';
+            var el = document.querySelector(selector);
+            if (el) {
+                el.textContent = el.dataset.labelforserver;
+            }
+
+            var idText = 'setDatabasePassword';
+            var el = document.getElementById(idText);
+            if (el) {
+                el.textContent = el.dataset.labelforserver;
+            }
+        }
+        if (el && el.options && typeof el.options[2] !== 'undefined' && el.options[2].selected == true) {
+            var selector = 'label[for="databaseUsername"]';
+            var el = document.querySelector(selector);
+            if (el) {
+                el.parentNode.style.display = 'none';
+            }
+
+            var selector = 'label[for="databasePassword"]';
+            var el = document.querySelector(selector);
+            if (el) {
+                el.textContent = el.dataset.labelforcloud;
+            }
+
+            var idText = 'setDatabasePassword';
+            var el = document.getElementById(idText);
+            if (el) {
+                el.textContent = el.dataset.labelforcloud;
+            }
+        }
     }
 
     // Display the password entry area for the data source.
@@ -186,10 +240,18 @@ window.addEventListener('load', function () {
 
     // Show messages.
     function show_message(messages) {
-        var message = '';
-        for (var i = 0; i < messages.length; i++) {
-            message += messages[i] + "\n";
+        if (messages) {
+            var message = '';
+            var idText = 'driver';
+            var el = document.getElementById(idText);
+            for (var i = 0; i < messages.length; i++) {
+                if (el && el.options && typeof el.options[1] !== 'undefined' && typeof el.options[2] !== 'undefined' && el.options[2].selected == true) {
+                    message += messages[i].replace(el.options[1].textContent, el.options[2].textContent) + "\n";
+                } else {
+                    message += messages[i] + "\n";
+                }
+            }
+            window.alert(message);
         }
-        window.alert(message);
     }
 }, false);

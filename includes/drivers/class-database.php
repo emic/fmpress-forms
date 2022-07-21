@@ -8,6 +8,7 @@
 
 namespace Emic\FMPress\Connect;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
 require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Core/Util.php';
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Compat.php';
@@ -153,9 +154,10 @@ abstract class Database {
 	 *
 	 * @since 1.0.0
 	 * @param bool $force_update .
+	 * @param int  $driver_id Driver id.
 	 * @return object|void|bool
 	 */
-	public function get_token( $force_update = false ) {
+	public function get_token( $force_update = false, $driver_id = 1 ) {
 		$datasource = $this->datasource;
 		if ( ! $datasource ) {
 			// Could not get datasource name.
@@ -182,14 +184,20 @@ abstract class Database {
 		$method = 'POST';
 		$uri    = $this->generate_base_uri() . 'sessions';
 
-		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
-		$str = base64_encode(
-			$this->auth_strings
-		);
+		$authorization_header = '';
+		if ( 1 === (int) $driver_id ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
+			$authorization_header = 'Basic ' . base64_encode( $this->auth_strings );
+		} elseif ( 2 === (int) $driver_id ) {
+			$auth_elements        = explode( ':', $this->auth_strings );
+			$refresh_token        = isset( $auth_elements[1] ) ? $auth_elements[1] : '';
+			$token                = apply_filters( 'fmpress_forms_cf7_get_token_for_cloud', $refresh_token );
+			$authorization_header = 'FMID ' . $token;
+		}
 
 		$headers = array(
 			'Content-Type'  => 'application/json',
-			'Authorization' => 'Basic ' . $str,
+			'Authorization' => $authorization_header,
 		);
 
 		// Send request.
@@ -221,15 +229,21 @@ abstract class Database {
 	 *
 	 * @since 1.0.0
 	 * @param array $field_data Layout name.
+	 * @param array $script .
 	 * @return object|array
 	 */
-	public function create( $field_data ) {
+	public function create( $field_data, $script = null ) {
+		// Add FileMaker native script.
+		$script_params = $this->set_filemaker_script( $script );
+
 		// Generate parameters.
 		$uri  = $this->generate_base_uri() . sprintf(
 			'layouts/%s/records',
 			$this->layout
 		);
-		$body = wp_json_encode( array( 'fieldData' => $field_data ) );
+		$body = wp_json_encode(
+			array_merge( array( 'fieldData' => $field_data ), $script_params )
+		);
 
 		// Send request.
 		$request_params = array(
@@ -245,7 +259,7 @@ abstract class Database {
 			// WordPress error.
 			return $response;
 		} elseif ( 200 !== $response['response']['code'] ) {
-			// FileMaker Server error.
+			// FileMaker error.
 			return $this->generate_wp_error( $response );
 		}
 
@@ -288,7 +302,7 @@ abstract class Database {
 		$contents = $this->get_contents( $file_path );
 		if ( false === $contents ) {
 			return Utils::generate_wp_error(
-				__( 'Upload file is missing.', 'emic-fmpress-connect' )
+				__( 'An error occurred while uploading a file.', 'fmpress-forms' )
 			);
 		}
 
@@ -316,7 +330,7 @@ abstract class Database {
 			// WordPress error.
 			return $response;
 		} elseif ( 200 !== $response['response']['code'] ) {
-			// FileMaker Server error.
+			// FileMaker error.
 			return $this->generate_wp_error( $response );
 		}
 
@@ -465,13 +479,49 @@ abstract class Database {
 	}
 
 	/**
+	 * Set FileMaker native script to request.
+	 * For `HTTP POST` or `HTTP PATCH`
+	 *
+	 * @since 1.2.0
+	 * @param array $script .
+	 * @return array
+	 */
+	protected function set_filemaker_script( $script ) {
+		$script_params = array();
+
+		if ( is_null( $script ) ) {
+			return $script_params;
+		}
+		if ( ! 'array' === gettype( $script ) ) {
+			return $script_params;
+		}
+
+		$params = array(
+			'script',
+			'script.param',
+			'script.prerequest',
+			'script.prerequest.param',
+			'script.presort',
+			'script.presort.param',
+		);
+
+		foreach ( $params as $key => $param ) {
+			if ( array_key_exists( $param, $script ) && '' !== $script[ $param ] ) {
+				$script_params[ $param ] = $script[ $param ];
+			}
+		}
+
+		return $script_params;
+	}
+
+	/**
 	 * Generate WP_Error object
 	 *
 	 * @since 1.0.0
 	 * @param array $response .
 	 * @return object
 	 */
-	private function generate_wp_error( $response ) {
+	protected function generate_wp_error( $response ) {
 		$errors = new WP_Error();
 
 		// Add HTTP error.
@@ -486,24 +536,27 @@ abstract class Database {
 			);
 		}
 
-		// Add FileMaker Server error.
+		// Add FileMaker error.
 		if ( isset( $response['http_response'] ) ) {
 			$response_object = $response['http_response']->get_response_object();
 			$response_body   = json_decode(
 				$response['http_response']->get_data(),
 				false
 			);
-			$code            = (int) $response_body->messages[0]->code;
 
-			if ( $code > 0 ) {
-				$errors->add(
-					FMPRESS_CONNECT_NAMEPREFIX . '_fms: ' . $response_body->messages[0]->code,
-					'FileMaker Server: ' .
-					$this->concat_error_message(
-						$response_body->messages[0]->message,
-						$response_body->messages[0]->code
-					)
-				);
+			if ( ! is_null( $response_body ) ) {
+				$code = (int) $response_body->messages[0]->code;
+
+				if ( $code > 0 ) {
+					$errors->add(
+						FMPRESS_CONNECT_NAMEPREFIX . '_fms: ' . $response_body->messages[0]->code,
+						'FileMaker Server: ' .
+						$this->concat_error_message(
+							$response_body->messages[0]->message,
+							$response_body->messages[0]->code
+						)
+					);
+				}
 			}
 		}
 

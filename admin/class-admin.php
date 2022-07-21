@@ -8,6 +8,7 @@
 
 namespace Emic\FMPress\Forms;
 
+defined( 'ABSPATH' ) || die( 'Access denied.' );
 use Emic\FMPress\Connect as Core;
 
 /**
@@ -79,12 +80,16 @@ final class Admin {
 		$cf7_settings['form_mode']     = $cf7_settings['form_mode'] ?? '1';
 		$cf7_settings['datasource_id'] = $cf7_settings['datasource_id'] ?? '';
 		$cf7_settings['fm_layout']     = $cf7_settings['fm_layout'] ?? '';
+		$cf7_settings['fm_script']     = $cf7_settings['fm_script'] ?? '';
 
 		// Section to specify the mode.
 		self::form_mode_section( $cf7_settings );
 
 		// Section for specifying database relationships.
 		self::relationship_settings_section( $cf7_settings );
+
+		// Section for specifying a script to perform.
+		self::script_settings_section( $cf7_settings );
 
 		// Section to specify field assignments.
 		self::assign_fields_section( $contact_form );
@@ -130,7 +135,7 @@ final class Admin {
 
 		echo '<p><small>',
 			esc_html__(
-				'To use the update mode, you need to use both FMPress Forms plug-in and FMPress Members plug-in.',
+				'To use the update mode, you need to use both FMPress Forms Pro plug-in and FMPress Members Pro plug-in.',
 				'fmpress-forms'
 			),
 			'</small></p></div>',
@@ -198,6 +203,37 @@ final class Admin {
 	}
 
 	/**
+	 * Section for specifying a script to perform
+	 *
+	 * @param array $cf7_settings .
+	 */
+	private function script_settings_section( $cf7_settings ) {
+		echo '<hr style="margin: 1em 0 2em;">',
+			'<h2>', esc_html__( 'Script', 'fmpress-forms' ), '</h2>',
+			'<table class="table fmpress-admin-table"><tbody>';
+
+		// Create a field to set a script name.
+		$name  = 'fm_script';
+		$label = __( 'Script', 'fmpress-forms' );
+
+		$cf7_settings[ $name ] = $cf7_settings[ $name ] ?? '';
+
+		echo '<tr><th>',
+			esc_html( $label ),
+			'</th>';
+
+		printf(
+			'<td><input type="text" id="%1$s" name="%3$s" value="%2$s"></td>',
+			'fileMakerScriptName',
+			esc_attr( $cf7_settings[ $name ] ),
+			esc_attr( FMPRESS_CONNECT_NAMEPREFIX ) . '_fm_script'
+		);
+
+		echo '</tr>',
+			'</tbody></table>';
+	}
+
+	/**
 	 * Section to specify field assignments
 	 *
 	 * @param WPCF7_ContactForm $contact_form .
@@ -208,8 +244,9 @@ final class Admin {
 			'<p><small>', esc_html__( 'To specify fields, you must add fm_field- as a prefix to the beginning of the form-tag name in the Form tab panel. (e.g. fm_field-company_name)', 'fmpress-forms' ), '</small></p>';
 
 		// Generate fields for field assignment.
+		$this->generate_input( FMPress_Forms::CF7_SPECAIL_MAIL_TAGS, true );
 		$mailtags = $contact_form->collect_mail_tags();
-		$this->generate_input( $mailtags );
+		$this->generate_input( $mailtags, false );
 
 		echo '</tbody></table>';
 	}
@@ -218,13 +255,14 @@ final class Admin {
 	 * Generate and display input tags for field assignment
 	 *
 	 * @param array $mailtags .
+	 * @param bool  $special .
 	 */
-	private function generate_input( $mailtags ) {
+	private function generate_input( $mailtags, $special = false ) {
 		$cf7          = \WPCF7_ContactForm::get_current();
 		$cf7_settings = $cf7->prop( FMPRESS_FORMS_CF7_SETTINGS_KEY );
 
 		foreach ( $mailtags as $key => $mailtag ) {
-			if ( self::FM_FIELD_PREFIX === substr( $mailtag, 0, 9 ) ) {
+			if ( str_starts_with( $mailtag, self::FM_FIELD_PREFIX ) || $special ) {
 				// Generate and display input tag.
 				echo '<tr>',
 					'<th>' . esc_html( $mailtag ) . '</th>',
@@ -233,7 +271,7 @@ final class Admin {
 				printf(
 					'<input type="text" id="%1$s" name="%3$s[fields][%1$s]" value="%2$s">',
 					esc_attr( $mailtag ),
-					esc_attr( $cf7_settings['fields'][ $mailtag ] ),
+					esc_attr( $cf7_settings['fields'][ $mailtag ] ?? '' ),
 					esc_attr( FMPRESS_FORMS_CF7_SETTINGS_KEY )
 				);
 
@@ -281,6 +319,7 @@ final class Admin {
 		$properties = array();
 		$args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ]['datasource_id'] = $args['fmpress_connect_datasource_id'];
 		$args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ]['fm_layout']     = $args['fmpress_connect_fm_layout'];
+		$args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ]['fm_script']     = $args['fmpress_connect_fm_script'];
 		$properties[ FMPRESS_FORMS_CF7_SETTINGS_KEY ]            = $args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ];
 		$contact_form->set_properties( $properties );
 
