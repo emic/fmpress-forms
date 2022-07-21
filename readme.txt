@@ -3,7 +3,7 @@ Contributors: emiccorp, matsuoatsushi
 Tags: claris, filemaker, database, contact form 7, form
 Requires at least: 5.7
 Tested up to: 6.0
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -62,7 +62,7 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 == Changelog ==
 
 = 1.2.0 =
-(In development)
+Release Date: July 21, 2022
 
 * Add support for executing a FileMaker script
 * Add support for [_remote_ip] and [_user_agent] of special mail-tags
