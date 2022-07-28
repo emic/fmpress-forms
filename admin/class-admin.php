@@ -262,7 +262,7 @@ final class Admin {
 		$cf7_settings = $cf7->prop( FMPRESS_FORMS_CF7_SETTINGS_KEY );
 
 		foreach ( $mailtags as $key => $mailtag ) {
-			if ( str_starts_with( $mailtag, self::FM_FIELD_PREFIX ) || $special ) {
+			if ( self::FM_FIELD_PREFIX === substr( $mailtag, 0, 9 ) || $special ) {
 				// Generate and display input tag.
 				echo '<tr>',
 					'<th>' . esc_html( $mailtag ) . '</th>',
