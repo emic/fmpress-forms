@@ -87,8 +87,10 @@ final class Fmdapi extends Database {
 	public function request( $request_params, $get_token = false ) {
 		// Detect driver.
 		$driver_id = 1;
-		$host      = wp_parse_url( $request_params['uri'], PHP_URL_HOST );
-		if ( str_ends_with( $host, '.account.filemaker-cloud.com' ) ) {
+		$haystack  = wp_parse_url( $request_params['uri'], PHP_URL_HOST );
+		$needle    = '.account.filemaker-cloud.com';
+		$len       = strlen( $needle );
+		if ( 0 === substr_compare( $haystack, $needle, -$len, $len ) ) {
 			$driver_id = 2;
 		}
 
