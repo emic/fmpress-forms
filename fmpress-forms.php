@@ -3,7 +3,7 @@
  * Plugin Name: FMPress Forms
  * Plugin URI: https://www.emic.co.jp/products/
  * Description: Addon for Contact Form 7.
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author: Emic Corporation
  * Author URI: https://www.emic.co.jp/
  * License: GPLv2 or later
@@ -42,7 +42,7 @@ final class FMPress_Forms {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.2.1';
+	const VERSION = '1.2.2';
 
 	/**
 	 * Minimum Version of PHP
