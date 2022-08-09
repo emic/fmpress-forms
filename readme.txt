@@ -61,6 +61,11 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 
 == Changelog ==
 
+= 1.2.3 =
+(In development)
+
+* Fix compatibility with FMPress Pro 1.1.0 or later
+
 = 1.2.2 =
 Release Date: July 28, 2022
 

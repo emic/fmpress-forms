@@ -104,13 +104,19 @@ final class FMPress_Forms {
 	 * @access public
 	 */
 	public function fmpress_plugin_init() {
+		if ( ! did_action( 'fmpress_forms_pro_loaded' ) &&
+			( is_plugin_active( 'fmpress-connect/fmpress-connect.php' ) || is_plugin_active( 'fmpress-pro/fmpress-connect.php' ) ) ) {
+			// Exit if FMPress Pro and FMPress Forms are activated.
+			return;
+		}
+
 		// Add a link to the settings on the plugin page.
 		add_filter(
 			'plugin_action_links_' . plugin_basename( __FILE__ ),
 			array( $this, 'fmpress_add_link_to_settings' )
 		);
 
-		if ( ! is_plugin_active( 'fmpress-connect/fmpress-connect.php' ) || did_action( 'fmpress_forms_pro_loaded' ) ) {
+		if ( did_action( 'fmpress_forms_loaded' ) || did_action( 'fmpress_forms_pro_loaded' ) ) {
 			// Require plugin files.
 			$this->fmpress_require_files();
 
