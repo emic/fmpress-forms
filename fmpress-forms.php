@@ -3,7 +3,7 @@
  * Plugin Name: FMPress Forms
  * Plugin URI: https://www.emic.co.jp/products/
  * Description: Addon for Contact Form 7.
- * Version: 1.2.2
+ * Version: 1.3.0
  * Author: Emic Corporation
  * Author URI: https://www.emic.co.jp/
  * License: GPLv2 or later
@@ -42,7 +42,7 @@ final class FMPress_Forms {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.2.2';
+	const VERSION = '1.3.0';
 
 	/**
 	 * Minimum Version of PHP
@@ -81,6 +81,7 @@ final class FMPress_Forms {
 		add_action( 'init', array( $this, 'fmpress_load_plugin_textdomain' ) );
 		add_action( 'plugins_loaded', array( $this, 'fmpress_plugin_init' ) );
 		add_action( 'admin_notices', array( $this, 'is_plugin_requirements' ) );
+		add_filter( 'script_loader_tag', array( $this, 'fmpress_load_js_as_module' ), 10, 3 );
 	}
 
 	/**
@@ -122,15 +123,16 @@ final class FMPress_Forms {
 
 			// Create class instances.
 			new Admin();
+			new AdminAjax();
 			new Forms();
 		}
 
 		if ( did_action( 'fmpress_forms_loaded' ) ) {
-			// Enqueue files.
-			$this->fmpress_enqueue_files();
-
 			new Core\Datasources();
 		}
+
+		// Enqueue files.
+		$this->fmpress_enqueue_files();
 	}
 
 	/**
@@ -196,7 +198,9 @@ final class FMPress_Forms {
 	 */
 	private function fmpress_require_files() {
 		require_once FMPRESS_FORMS_PLUGIN_DIR . '/admin/class-admin.php';
+		require_once FMPRESS_FORMS_PLUGIN_DIR . '/admin/class-admin-ajax.php';
 		require_once FMPRESS_FORMS_PLUGIN_DIR . '/includes/class-forms.php';
+		require_once FMPRESS_FORMS_PLUGIN_DIR . '/includes/class-fm-value-list.php';
 
 		if ( did_action( 'fmpress_forms_loaded' ) ) {
 			// For FMPress Forms.
@@ -208,7 +212,6 @@ final class FMPress_Forms {
 			require_once FMPRESS_FORMS_PLUGIN_DIR . '/includes/drivers/class-fmdapi.php';
 		} elseif ( did_action( 'fmpress_forms_pro_loaded' ) ) {
 			// For FMPress Forms Pro.
-			require_once FMPRESS_FORMS_PLUGIN_DIR . '/includes/class-fm-value-list.php';
 			require_once FMPRESS_FORMS_PLUGIN_DIR . '/includes/class-update-form.php';
 		}
 	}
@@ -237,10 +240,20 @@ final class FMPress_Forms {
 		add_action(
 			'admin_enqueue_scripts',
 			function() {
+				if ( did_action( 'fmpress_forms_loaded' ) ) {
+					wp_enqueue_script(
+						'fmpress-connect-admin',
+						plugins_url( '/admin/js/admin.min.js', __FILE__ ),
+						array(),
+						gmdate( 'U' ),
+						false
+					);
+				}
+
 				wp_enqueue_script(
-					'fmpress-connect-admin',
-					plugins_url( '/admin/js/admin.js', __FILE__ ),
-					array(),
+					'module-fmpress-form-editor',
+					plugins_url( '/admin/js/form-editor/form-editor.js', __FILE__ ),
+					array( 'fmpress-connect-admin' ),
 					gmdate( 'U' ),
 					false
 				);
@@ -464,6 +477,25 @@ final class FMPress_Forms {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Handle JavaScript files as module
+	 *
+	 * @since 1.3.0
+	 * @param string $tag .
+	 * @param string $handle .
+	 * @param string $source .
+	 * @return string
+	 */
+	public function fmpress_load_js_as_module( $tag, $handle, $source ) {
+		if ( 0 === strpos( $handle, 'module-' ) ) {
+			// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+			$tag = '<script type="module" src="' . esc_url( $source ) . '"></script>' . PHP_EOL;
+			// phpcs:enable
+		}
+
+		return $tag;
 	}
 }
 
