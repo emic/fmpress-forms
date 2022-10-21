@@ -78,6 +78,44 @@ final class Fmdapi extends Database {
 	}
 
 	/**
+	 * Get layout metadata
+	 * Using in FMPress Forms
+	 *
+	 * @since 1.3.0
+	 * @return object|array
+	 */
+	public function get_layout_meta() {
+		// Generate URI.
+		$uri = $this->generate_base_uri() . sprintf(
+			'layouts/%s',
+			$this->layout
+		);
+
+		// Send request.
+		$request_params = array(
+			'method'       => 'GET',
+			'uri'          => $uri,
+			'content_type' => null,
+			'options'      => array(),
+		);
+		$response       = $this->request( $request_params, true );
+
+		// Error handling.
+		if ( is_wp_error( $response ) ) {
+			// WordPress error.
+			return $response;
+		} elseif ( 200 !== $response['response']['code'] ) {
+			// FileMaker Server error.
+			return $this->generate_wp_error( $response );
+		}
+
+		// Generate result.
+		$result = json_decode( $response['body'], true );
+
+		return $result;
+	}
+
+	/**
 	 * Send request to FileMaker Server
 	 *
 	 * @param array $request_params Request data.

@@ -145,7 +145,7 @@ final class Forms {
 		if ( $submission ) {
 			$posted_data = $submission->get_posted_data();
 		} else {
-			return Utils::generate_wp_error(
+			return Core\Utils::generate_wp_error(
 				__( 'Could not get submission of Contact Form 7.', 'fmpress-forms' ),
 				'Forms'
 			);
@@ -199,12 +199,33 @@ final class Forms {
 		if ( $update ) {
 			// Update mode.
 			if ( false === Core\Utils::is_member_page() ) {
-				return Utils::generate_wp_error(
+				return Core\Utils::generate_wp_error(
 					__( 'This page is not a member page, so the update mode is not available.', 'fmpress-forms' ),
 					'Forms'
 				);
 			}
-			$this->result = $this->update_form->update( $fmdapi, $format_posted_data );
+
+			$result = $this->update_form->update( $fmdapi, $format_posted_data );
+			if ( is_wp_error( $result ) ) {
+				$this->result = $result;
+				return;
+			}
+
+			if ( ! is_wp_error( $this->create_record ) &&
+				count( $_FILES ) > 0 &&
+				count( $submission->uploaded_files() ) > 0 &&
+				isset( $fmdapi->record_id ) &&
+				! empty( $fmdapi->record_id )
+			) {
+				// Upload files.
+				$this->result = $this->upload(
+					$fmdapi,
+					$fmdapi->record_id,
+					$submission->uploaded_files()
+				);
+			} else {
+				$this->result = $result;
+			}
 		} elseif ( $create && '1' === $cf7_settings['form_mode'] ) {
 			// Create mode.
 			$script_name = $cf7_settings['fm_script'] ?? '';
@@ -236,11 +257,11 @@ final class Forms {
 	 * @access public
 	 */
 	public function prepare_form() {
-		if ( did_action( 'fmpress_forms_pro_loaded' ) ) {
-			// Add FileMaker Value List.
-			$fm_value_list = new Fm_Value_List();
-			add_filter( 'wpcf7_form_tag', array( $fm_value_list, 'generate_custom_select' ), 10, 1 );
+		// Add FileMaker Value List.
+		$fm_value_list = new Fm_Value_List();
+		add_filter( 'wpcf7_form_tag', array( $fm_value_list, 'generate_custom_select' ), 10, 1 );
 
+		if ( did_action( 'fmpress_forms_pro_loaded' ) ) {
 			// Set up the form for updating.
 			add_filter( 'wpcf7_form_tag', array( $this->update_form, 'set_up_form_for_update' ), 11, 1 );
 		}
