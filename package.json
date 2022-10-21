@@ -1,7 +1,7 @@
 
 {
   "name": "fmpress-forms",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "main": "Gruntfile.js",
   "author": "Emic Corporation",
   "scripts" : {

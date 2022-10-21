@@ -1,5 +1,339 @@
+.me-1 {
+    margin-right: 1em !important;
+}
+
+.d-block {
+    display: block !important;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.fade-in {
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.fade-out {
+    display: none !important;
+    animation-name: fadeOut;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+}
+
+.no-submit {
+    cursor: default !important;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 1
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0;
+        display: none !important;
+    }
+}
+
 .fmpress-admin-table th {
     min-width: 150px;
     text-align: left;
     font-weight: normal;
+}
+
+/**
+  FMPress Form Editor
+ */
+
+/* Structure */
+
+.ffe-form-editor {
+    padding: 0 0 20px 0;
+}
+
+.ffe-form-editor.show {
+    display: block;
+}
+
+.ffe-content-wrapper {
+    display: flex;
+}
+
+.ffe-area-title-wrapper {
+    margin: 1em 0;
+}
+
+.ffe-area.ffe-area-left {
+    min-width: 30%;
+    margin-right: 20px;
+}
+
+.ffe-area.ffe-area-right {
+    width: calc( 70% - 20px );
+}
+
+/* Title */
+#contact-form-editor .contact-form-editor-panel h2.ffe-form-editor-title {
+    font-size: 1.6em;
+}
+
+/* Left Area */
+
+.ffe-form-editor.hide {
+    display: none;
+}
+
+.ffe-area-item {
+    margin: 0.3em 0;
+    font-size: 0.9em;
+}
+
+.ffe-field-list-field,
+.ffe-field-list-meta-value {
+    list-style-type: none;
+}
+
+.ffe-field-list-name {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.ffe-field-list-meta {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.ffe-field-list-field {
+    justify-content: space-between;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    margin-bottom: 6px;
+    padding: 5px 20px;
+    background-color: #fff;
+}
+
+.ffe-field-list-field-wrapper-right {
+    align-items: center;
+    justify-content: center;
+}
+
+.ffe-add-element-to-form-btn {
+    position: relative;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0 none;
+    width: 20px;
+    height: 20px;
+}
+
+.ffe-add-element-to-form-btn::before {
+    position: absolute;
+    font-family: 'dashicons';
+    font-size: 20px;
+    content: "\f543";
+    top: 0;
+    right: 0;
+    transition: all 0.4s;
+}
+
+.ffe-field-added::before {
+    /* content: "\f15e"; */
+    content: "\f344";
+}
+
+.ffe-field-list-name {
+    font-size: 1.2em;
+}
+
+.ffe-field-list-meta-value {
+    margin-bottom: 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+/* Right Area */
+
+.ffe-form-element {
+    position: relative;
+}
+
+.ffe-form-element.over {
+    border: 2px dotted #666;
+}
+
+.ffe-form-element-title {
+    cursor: pointer;
+    position: relative;
+    list-style: none;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.ffe-form-element:after {
+    position: absolute;
+    font-family: 'dashicons';
+    font-size: 24px;
+    content: "\f347";
+    top: 21px;
+    right: 16px;
+    transition: all 0.4s;
+    z-index: -1;
+}
+
+.ffe-form-element[open]:after {
+    transform: rotate(180deg);
+    transition: all 0.3s;
+}
+
+.ffe-form-element-title.required:before {
+    content: "*";
+    position: absolute;
+    top: 0;
+    left: -0.5em;
+    width: 20px;
+    height: 20px;
+}
+
+details summary::marker,
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+.ffe-form-element {
+    margin-bottom: 0.4em;
+    padding: 20px;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 1px solid #aaa;
+}
+
+.ffe-form-element-contents {
+    margin-top: 1em;
+}
+
+.ffe-form-element-content {
+    display: flex;
+    align-items: center;
+    margin-top: 1.2em;
+}
+
+.ffe-form-element-content-label {
+    min-width: 150px;
+}
+
+.ffe-form-element-content-input-wrapper {
+    width: 100%;
+}
+
+.ffe-form-element-content-text,
+.ffe-form-element-content-checkbox,
+.ffe-form-element-content-select {
+    margin-right: 0.5em !important;
+    width: inherit;
+}
+
+.ffe-form-element-content-text,
+.ffe-form-element-content-checkbox {
+    width: 100%;
+}
+
+.ffe-form-element-content input[type="radio"],
+.ffe-form-element-content input[type="checkbox"] {
+    vertical-align: middle;
+}
+
+/* Modal */
+
+.ffe-modal-dialog {
+    width: calc(100vw - 48px);
+    max-width: 50%;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 0px;
+    padding: 0;
+}
+
+.ffe-modal-dialog-wrapper {
+    padding: 2em;
+}
+
+.ffe-modal-dialog-title {
+    margin: 0;
+    padding: 0 0 0.5em;
+    border-bottom: 1px solid #dcdcde;
+}
+
+dialog::backdrop {
+    background-color: rgba(43, 62, 80, 0.64);
+}
+
+.ffe-button-modal-dialog {
+    margin-right: 0.3em !important;
+}
+
+.ffe-modal-dialog-do-not-show-this-dialog {
+    margin: 1em 0;
+}
+
+/* Validation */
+
+.ffe-form-element.ffe-validated-valid {
+    border-color: #108810 !important;
+}
+
+.ffe-form-element.ffe-validated-invalid {
+    border-color: #dc3545 !important;
+}
+
+.ffe-form-element.ffe-validated-valid .ffe-form-element-title {
+    color: #108810;
+}
+
+.ffe-form-element.ffe-validated-invalid .ffe-form-element-title {
+    color: #dc3545 !important;
+}
+
+.ffe-form-element .ffe-form-element-title:after {
+    position: absolute;
+    font-family: 'dashicons';
+    font-size: 21px;
+    content: "";
+    top: 0;
+    transition: all 0.4s;
+    z-index: -1;
+}
+
+.ffe-form-element.ffe-validated-valid .ffe-form-element-title:after {
+    content: "\f12a";
+    color: #108810;
+}
+
+.ffe-form-element.ffe-validated-invalid .ffe-form-element-title:after {
+    content: "\f534";
+    color: #dc3545;
+}
+
+.ffe-form-element-content-input-error-message {
+    margin: 0;
+    padding: 0 0.3em;
+    color: #dc3545;
 }
