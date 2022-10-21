@@ -1,257 +1,337 @@
-window.addEventListener('load', function () {
-    // Testing the connection of data source.
-    connectionTest();
+/**
+ * Event is fired when the whole page has loaded.
+ */
+window.addEventListener( 'load', function() {
+	/**
+	 * Toggle display of database user names.
+	 *
+	 * @param {string} driverId
+	 */
+	const showHideDatabaseUsername = ( driverId ) => {
+		const selector = 'label[for="databaseUsername"]';
+		const el = document.querySelector( selector );
+		if ( null === el ) {
+			return;
+		}
 
-    // Update input user interface.
-    updateInputUserInterface();
+		if ( '1' === driverId ) {
+			// FilMaker Server.
+			el.parentNode.style.display = 'block';
+		} else if ( '2' === driverId ) {
+			// FilMaker Cloud.
+			el.parentNode.style.display = 'none';
+		}
+	};
 
-    var selector = '#fmpressConnectSettings .category-tabs li a';
-    var el = document.querySelectorAll(selector);
-    for (var i = 0; i < el.length; i++) {
-        el[i].addEventListener('click', function (event) {
-            event.preventDefault();
-            fmpressConnectHideTabs();
-            fmpressConnectShowTab(this);
-        });
-    }
+	/**
+	 * Toggle password labels.
+	 *
+	 * @param {string} driverId
+	 */
+	const setLabelForSetDatabasePassword = ( driverId ) => {
+		const selector = 'label[for="databasePassword"]';
+		const el = document.querySelector( selector );
+		if ( null === el ) {
+			return;
+		}
 
-    // Add event listner for driver.
-    var idText = 'driver';
-    var el = document.getElementById(idText);
-    if (el) {
-        el.addEventListener('change', updateInputUserInterface, false);
-    }
+		if ( '1' === driverId ) {
+			el.textContent = el.dataset.labelforserver;
+		} else if ( '2' === driverId ) {
+			el.textContent = el.dataset.labelforcloud;
+		}
+	};
 
-    // Display the password entry area for the data source.
-    var idText = 'setDatabasePassword';
-    var el = document.getElementById(idText);
-    if (el) {
-        el.addEventListener('click', showDataSourcePasswordInput, false);
-    }
+	/**
+	 * Toggle button labels.
+	 *
+	 * @param {string} driverId
+	 */
+	const setButtonForDatabasePassword = ( driverId ) => {
+		const selector = 'setDatabasePassword';
+		const el = document.getElementById( selector );
+		if ( null === el ) {
+			return;
+		}
 
-    // Hide the password entry area of the data source.
-    var idText = 'cancelDatabasePassword';
-    var el = document.getElementById(idText);
-    if (el) {
-        el.addEventListener('click', cancelDatasourcePasswordInput, false);
-    }
+		if ( '1' === driverId ) {
+			el.textContent = el.dataset.labelforserver;
+		} else if ( '2' === driverId ) {
+			el.textContent = el.dataset.labelforcloud;
+		}
+	};
 
-    // Toggle the type attribute of the data source password.
-    var idText = 'hideDatabasePassword';
-    var el = document.getElementById(idText);
-    if (el) {
-        el.addEventListener('click', switchDataSourceInputType, false);
-    }
+	/**
+	 * Run when driver is changed.
+	 */
+	const changeDriver = () => {
+		const idText = 'driver';
+		const el = document.getElementById( idText );
 
-    function fmpressConnectHideTabs() {
-        // Adjust class names for tabs.
-        var selector = '#fmpressConnectSettings .category-tabs li';
-        var el = document.querySelectorAll(selector);
-        for (var i = 0; i < el.length; i++) {
-            el[i].classList.remove('tabs');
-            el[i].classList.add('hide-if-no-js');
-        }
+		showHideDatabaseUsername( el.value );
+		setLabelForSetDatabasePassword( el.value );
+		setButtonForDatabasePassword( el.value );
+	};
 
-        // Show tab contents.
-        selector = '#fmpressConnectSettings .tabs-panel';
-        el = document.querySelectorAll(selector);
-        for (var n = 0; n < el.length; n++) {
-            el[n].style.display = 'none';
-        }
-    }
+	/**
+	 * Display password entry area.
+	 */
+	const showDataSourcePasswordInput = () => {
+		const selector = 'div[data-aria="setDatabasePassword"]';
+		const el = document.querySelector( selector );
+		if ( null !== el ) {
+			el.style.display = 'block';
+			hideSetPasswordButton();
+		}
+	};
 
-    function fmpressConnectShowTab(el) {
-        // Adjust class names for tabs.
-        el.parentNode.classList.remove('hide-if-no-js');
-        el.parentNode.classList.add('tabs');
+	/**
+	 * Hide password entry area.
+	 */
+	const cancelDatasourcePasswordInput = () => {
+		const selector = 'div[data-aria="setDatabasePassword"]';
+		const el = document.querySelector( selector );
+		if ( null !== el ) {
+			el.style.display = 'none';
+			showSetPasswordButton();
+		}
+	};
 
-        // Show tab contents.
-        var targetId = el.getAttribute('href');
-        var el = document.querySelector(targetId);
-        el.style.display = 'block';
-    }
+	/**
+	 * Show button.
+	 */
+	const showSetPasswordButton = () => {
+		const idText = 'setDatabasePassword';
+		const el = document.getElementById( idText );
+		if ( null !== el ) {
+			el.style.display = 'block';
+		}
+	};
 
-    // Change input user interface.
-    function updateInputUserInterface() {
-        var idText = 'driver';
-        var el = document.getElementById(idText);
-        if (el && el.options && typeof el.options[1] !== 'undefined' && el.options[1].selected == true) {
-            var selector = 'label[for="databaseUsername"]';
-            var el = document.querySelector(selector);
-            if (el) {
-                el.parentNode.style.display = 'block';
-            }
+	/**
+	 * Hide button.
+	 */
+	const hideSetPasswordButton = () => {
+		const idText = 'setDatabasePassword';
+		const el = document.getElementById( idText );
+		if ( null !== el ) {
+			el.style.display = 'none';
+		}
+	};
 
-            var selector = 'label[for="databasePassword"]';
-            var el = document.querySelector(selector);
-            if (el) {
-                el.textContent = el.dataset.labelforserver;
-            }
+	/**
+	 * Toggle the attributes of the password entry field.
+	 */
+	const switchDataSourceInputType = () => {
+		const idText = 'databasePassword';
+		const el = document.getElementById( idText );
+		if ( el.type === 'text' ) {
+			el.type = 'password';
+			switchDataSourceButtonText( 'show' );
+		} else {
+			el.type = 'text';
+			switchDataSourceButtonText( 'hide' );
+		}
+	};
 
-            var idText = 'setDatabasePassword';
-            var el = document.getElementById(idText);
-            if (el) {
-                el.textContent = el.dataset.labelforserver;
-            }
-        }
-        if (el && el.options && typeof el.options[2] !== 'undefined' && el.options[2].selected == true) {
-            var selector = 'label[for="databaseUsername"]';
-            var el = document.querySelector(selector);
-            if (el) {
-                el.parentNode.style.display = 'none';
-            }
+	/**
+	 * Toggle button labels and icons.
+	 *
+	 * @param {string} action
+	 */
+	const switchDataSourceButtonText = ( action ) => {
+		// Text.
+		const buttonText = document.querySelector( '#hideDatabasePassword .text' );
+		// Icon.
+		const buttonIcon = document.querySelector( '#hideDatabasePassword .dashicons' );
+		// Toggle.
+		if ( action === 'show' ) {
+			buttonText.textContent = 'Show';
+			buttonIcon.className = 'dashicons dashicons-visibility';
+		} else {
+			buttonText.textContent = 'Hide';
+			buttonIcon.className = 'dashicons dashicons-hidden';
+		}
+	};
 
-            var selector = 'label[for="databasePassword"]';
-            var el = document.querySelector(selector);
-            if (el) {
-                el.textContent = el.dataset.labelforcloud;
-            }
+	/**
+	 * Connection testing of data source.
+	 *
+	 * @param {Object} e event
+	 */
+	const connectionTest = ( e ) => {
+		e.preventDefault();
 
-            var idText = 'setDatabasePassword';
-            var el = document.getElementById(idText);
-            if (el) {
-                el.textContent = el.dataset.labelforcloud;
-            }
-        }
-    }
+		if ( ! isReadyForWpAjax ) {
+			return;
+		}
 
-    // Display the password entry area for the data source.
-    function showDataSourcePasswordInput() {
-        var selector = 'div[data-aria="setDatabasePassword"]';
-        var el = document.querySelector(selector);
-        if (el) {
-            el.style.display = 'block';
-            hideSetPasswordButton();
-        }
-    }
+		const data = {
+			action: 'connection_test',
+			wp_post_id: getQueryVar( 'post' ),
+			// eslint-disable-next-line no-undef
+			fmpress_ajax_nonce: localize.fmpressAjaxNonce,
+		};
 
-    // Hide the password entry area of the data source.
-    function cancelDatasourcePasswordInput() {
-        var selector = 'div[data-aria="setDatabasePassword"]';
-        var el = document.querySelector(selector);
-        if (el) {
-            el.style.display = 'none';
-            showSetPasswordButton();
-        }
-    }
+		// eslint-disable-next-line no-undef
+		const xhr = new XMLHttpRequest();
+		// eslint-disable-next-line no-undef
+		xhr.open( 'POST', ajaxurl );
+		const array = [];
+		Object.keys( data ).forEach( ( element ) =>
+			array.push(
+				encodeURIComponent( element ) + '=' + encodeURIComponent( data[ element ] )
+			)
+		);
+		const body = array.join( '&' );
+		xhr.setRequestHeader( 'Content-type', 'application/x-www-form-urlencoded' );
+		xhr.send( body );
 
-    // Display a button to set a password.
-    function showSetPasswordButton() {
-        var idText = 'setDatabasePassword';
-        var el = document.getElementById(idText);
-        if (el) {
-            el.style.display = 'block';
-        }
-    }
+		xhr.onload = () => {
+			if ( '' !== xhr.response ) {
+				showMessage( JSON.parse( xhr.response ) );
+			}
+		};
+		xhr.onerror = () => {
+			// eslint-disable-next-line no-console
+			console.error( xhr.status );
+			// eslint-disable-next-line no-console
+			console.error( xhr.response );
+		};
+	};
 
-    // Hide the Set Password button.
-    function hideSetPasswordButton() {
-        var idText = 'setDatabasePassword';
-        var el = document.getElementById(idText);
-        if (el) {
-            el.style.display = 'none';
-        }
-    }
+	/**
+	 * Getting URL parameters.
+	 *
+	 * @param {string} name
+	 * @param {string} url
+	 * @return {string} URL argument value
+	 */
+	const getQueryVar = ( name, url ) => {
+		if ( ! url ) {
+			url = window.location.href;
+		}
+		name = name.replace( /[\[\]]/g, '\\$&' );
+		const regex = new RegExp( '[?&]' + name + '(=([^&#]*)|&|#|$)' ),
+			results = regex.exec( url );
+		if ( ! results ) {
+			return null;
+		}
+		if ( ! results[ 2 ] ) {
+			return '';
+		}
+		return decodeURIComponent( results[ 2 ].replace( /\+/g, ' ' ) );
+	};
 
-    // Toggle the type attribute of the data source password.
-    function switchDataSourceInputType() {
-        var idText = 'databasePassword';
-        var el = document.getElementById(idText);
-        if (el.type === 'text') {
-            el.type = 'password';
-            switchDataSourceButtonText('show');
-        } else {
-            el.type = 'text';
-            switchDataSourceButtonText('hide');
-        }
-    }
+	/**
+	 * Show messages.
+	 *
+	 * @param {string} messages
+	 */
+	const showMessage = ( messages ) => {
+		if ( ! messages ) {
+			return;
+		}
+		let message = '';
+		for ( let i = 0; i < messages.length; i++ ) {
+			message += messages[ i ] + '\n';
+		}
+		// eslint-disable-next-line no-alert
+		window.alert( message );
+	};
 
-    // Toggle text and icons for button to switch password type.
-    function switchDataSourceButtonText(action) {
-        // Text.
-        var buttonText = document.querySelector('#hideDatabasePassword .text');
-        // Icon.
-        var buttonIcon = document.querySelector('#hideDatabasePassword .dashicons');
-        // Toggle.
-        if (action === 'show') {
-            buttonText.textContent = 'Show';
-            buttonIcon.className = 'dashicons dashicons-visibility';
-        } else {
-            buttonText.textContent = 'Hide';
-            buttonIcon.className = 'dashicons dashicons-hidden';
-        }
-    }
+	/**
+	 * Determine if WordPress Ajax is ready
+	 *
+	 * @return {boolean} True if WordPress Ajax is ready
+	 */
+	const isReadyForWpAjax = () => {
+		if ( typeof ajaxurl === 'undefined' || typeof localize === 'undefined' ) {
+			return false;
+		}
 
-    // Testing the connection of data source.
-    function connectionTest() {
-        'use strict';
-        if (typeof ajaxurl === 'undefined' || typeof localize === 'undefined') {
-            return;
-        }
+		return true;
+	};
 
-        var btn = document.getElementById('connectionTest');
-        if (!btn) {
-            return;
-        }
+	/**
+	 * Set Events.
+	 */
+	const setEvents = () => {
+		/**
+		 * Set event on button to display password entry area.
+		 */
+		const setEventToSetDatabasePassword = () => {
+			const idText = 'setDatabasePassword';
+			const el = document.getElementById( idText );
+			if ( null !== el ) {
+				el.addEventListener( 'click', showDataSourcePasswordInput, false );
+			}
+		};
+		setEventToSetDatabasePassword();
 
-        btn.addEventListener('click', function (event) {
-            event.preventDefault();
+		/**
+		 * Set event on button to hide password entry area.
+		 */
+		const setEventToCancelDatabasePassword = () => {
+			const idText = 'cancelDatabasePassword';
+			const el = document.getElementById( idText );
+			if ( null !== el ) {
+				el.addEventListener( 'click', cancelDatasourcePasswordInput, false );
+			}
+		};
+		setEventToCancelDatabasePassword();
 
-            var data = {
-                "action": "connection_test",
-                "wp_post_id": getQueryVar('post'),
-                'fmpress_ajax_nonce': localize.fmpressAjaxNonce
-            };
+		/**
+		 * Set event on button to test connection of data source.
+		 */
+		const setEventToConnectionTest = () => {
+			const idText = 'connectionTest';
+			const el = document.getElementById( idText );
+			if ( null !== el ) {
+				el.addEventListener( 'click', connectionTest, false );
+			}
+		};
+		setEventToConnectionTest();
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', ajaxurl);
-            var array = [];
-            Object.keys(data).forEach(element =>
-                array.push(
-                    encodeURIComponent(element) + "=" + encodeURIComponent(data[element])
-                )
-            );
-            var body = array.join("&");
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.send(body);
+		/**
+		 * Set event on button to toggle password display.
+		 */
+		const setEventToHideDatabasePassword = () => {
+			const idText = 'hideDatabasePassword';
+			const el = document.getElementById( idText );
+			if ( null !== el ) {
+				el.addEventListener( 'click', switchDataSourceInputType, false );
+			}
+		};
+		setEventToHideDatabasePassword();
 
-            xhr.onload = () => {
-                if ('' !== xhr.response) {
-                    show_message(JSON.parse(xhr.response));
-                }
-            };
-            xhr.onerror = () => {
-                console.error(xhr.status);
-                console.error(xhr.response);
-            };
-        })
-    }
+		/**
+		 * Set event to be executed when driver is changed.
+		 */
+		const setEventToChangeDriver = () => {
+			const idText = 'driver';
+			const el = document.getElementById( idText );
+			if ( null !== el ) {
+				const driverId = el.value;
+				el.addEventListener( 'change', { name: driverId, handleEvent: changeDriver }, false );
+			}
+		};
+		setEventToChangeDriver();
+	};
 
-    // Getting URL parameters.
-    function getQueryVar(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
+	/**
+	 * initialization process.
+	 */
+	const init = () => {
+		// Check submission type
+		if ( ! document.body.classList.contains( 'post-type-connect_datasource' ) ) {
+			return;
+		} else if ( ! document.body.classList.contains( 'post-php' ) && ! document.body.classList.contains( 'post-new-php' ) ) {
+			return;
+		}
 
-    // Show messages.
-    function show_message(messages) {
-        if (messages) {
-            var message = '';
-            var idText = 'driver';
-            var el = document.getElementById(idText);
-            for (var i = 0; i < messages.length; i++) {
-                if (el && el.options && typeof el.options[1] !== 'undefined' && typeof el.options[2] !== 'undefined' && el.options[2].selected == true) {
-                    message += messages[i].replace(el.options[1].textContent, el.options[2].textContent) + "\n";
-                } else {
-                    message += messages[i] + "\n";
-                }
-            }
-            window.alert(message);
-        }
-    }
-}, false);
+		setEvents();
+		changeDriver();
+	};
+	init();
+}, false );
