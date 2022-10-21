@@ -66,7 +66,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_plugin_version() {
-		$this->assertEquals( '1.2.2', self::$plugin::VERSION );
+		$this->assertEquals( '1.3.0', self::$plugin::VERSION );
 
 		$droot = 'true' === getenv( 'GITLAB_CI' ) ? '/home/wordpress' : '/var/www/html';
 		$data = get_plugin_data("${droot}/wp-content/plugins/fmpress-forms/fmpress-forms.php");
@@ -374,7 +374,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 		$this->assertArrayHasKey( FMPRESS_FORMS_PLUGIN_DIR . '/includes/class-utils.php', $includes );
 		$this->assertArrayHasKey( FMPRESS_FORMS_PLUGIN_DIR . '/includes/drivers/class-database.php', $includes );
 		$this->assertArrayHasKey( FMPRESS_FORMS_PLUGIN_DIR . '/includes/drivers/class-fmdapi.php', $includes );
-		$this->assertFalse( in_array( FMPRESS_FORMS_PLUGIN_DIR . '/includes/class-fm-value-list.php', $includes, true ) );
+		$this->assertArrayHasKey( FMPRESS_FORMS_PLUGIN_DIR . '/includes/class-fm-value-list.php', $includes );
 		$this->assertFalse( in_array( FMPRESS_FORMS_PLUGIN_DIR . '/includes/class-update-form.php', $includes, true ) );
 	}
 
@@ -408,7 +408,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 		$wp_scripts = wp_scripts();
 		$this->assertTrue( wp_style_is( 'fmpress-connect-admin', 'registered' ) );
 		$this->assertEquals( $wp_scripts->registered['fmpress-connect-admin']->handle, 'fmpress-connect-admin' );
-		$this->assertEquals( $wp_scripts->registered['fmpress-connect-admin']->src, plugins_url( '/admin/js/admin.js', FMPRESS_FORMS_PLUGIN_DIR . '/fmpress.php' ) );
+		$this->assertEquals( $wp_scripts->registered['fmpress-connect-admin']->src, plugins_url( '/admin/js/admin.min.js', FMPRESS_FORMS_PLUGIN_DIR . '/fmpress.php' ) );
 		$this->assertArraySubset( $wp_scripts->registered['fmpress-connect-admin']->deps, array() );
 	}
 
