@@ -289,7 +289,7 @@ final class Admin {
 	 * @param string            $context .
 	 */
 	public function save_fmpress_settings( $contact_form, $args, $context ) {
-		if ( 'save' !== $context ) {
+		if ( 'save' !== $context || ! $this->validate_cf7_args( $args ) ) {
 			return;
 		}
 
@@ -299,21 +299,11 @@ final class Admin {
 			return;
 		}
 
-		// Generate fields.
-		$fm_fields = array();
-		foreach ( $scanned_form_tags as $key => $tag ) {
-			if ( $this->is_fm_field( $tag ) ) {
-				$fm_fields[ $tag->name ] = $this->get_fm_field( $tag );
-			}
-		}
-
-		// Add fields.
-		if ( ! isset( $args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ] ) ) {
-			$merged = $fm_fields;
-		} else {
-			$merged = array_merge( $fm_fields, $args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ]['fields'] );
-		}
-		$args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ]['fields'] = $merged;
+		// Generate an array for the Assign fields on the FMPress tab.
+		$args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ]['fields'] = $this->generate_array_for_assign_fields(
+			$args,
+			$scanned_form_tags
+		);
 
 		// Set properties.
 		$properties = array();
@@ -325,6 +315,80 @@ final class Admin {
 
 		// Save.
 		$contact_form->save();
+	}
+
+	/**
+	 * Generate an array for the Assign fields on the FMPress tab.
+	 *
+	 * @since 1.3.0
+	 * @param array $args .
+	 * @param array $scanned_form_tags .
+	 * @return array
+	 */
+	private function generate_array_for_assign_fields( $args, $scanned_form_tags ) {
+		// phpcs:disable WordPress.Security.NonceVerification
+		if ( isset( $_POST['fmpress-form-editor-form-structure'] ) ) {
+			// phpcs:enable
+			$fm_fields = $this->get_submitted_data_from_fmpress_form_editor();
+			return array_merge( $args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ]['fields'], $fm_fields );
+		}
+
+		$auto_generate_fields = $this->auto_generate_fields( $scanned_form_tags );
+		return array_merge( $auto_generate_fields, $args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ]['fields'] );
+	}
+
+	/**
+	 * Create array for Assign fields
+	 * Based on CF7 form-tag name.
+	 *
+	 * @since 1.3.0
+	 * @param array $scanned_form_tags .
+	 * @param array $fm_fields .
+	 * @return array
+	 */
+	private function auto_generate_fields( $scanned_form_tags, $fm_fields = array() ) {
+		foreach ( $scanned_form_tags as $key => $tag ) {
+			if ( $this->is_fm_field( $tag ) ) {
+				$fm_fields[ $tag->name ] = $this->get_fm_field( $tag );
+			}
+		}
+
+		return $fm_fields;
+	}
+
+	/**
+	 * Create array for Assign fields
+	 * Based on data submitted from FMPress Form Editor.
+	 *
+	 * @since 1.3.0
+	 * @return array
+	 */
+	private function get_submitted_data_from_fmpress_form_editor() {
+		// phpcs:disable WordPress.Security.NonceVerification
+		$replaced = str_replace( '\\"', '"', $_POST['fmpress-form-editor-form-structure'] );
+		// phpcs:enable
+		return json_decode( $replaced, true );
+	}
+
+	/**
+	 * Validate args
+	 *
+	 * @since 1.3.0
+	 * @param array $args .
+	 * @return bool
+	 */
+	private function validate_cf7_args( $args ) {
+		if ( ! isset( $args['fmpress_connect_datasource_id'] ) ) {
+			return false;
+		} elseif ( ! isset( $args['fmpress_connect_fm_layout'] ) ) {
+			return false;
+		} elseif ( ! isset( $args['fmpress_connect_fm_script'] ) ) {
+			return false;
+		} elseif ( ! isset( $args[ FMPRESS_FORMS_CF7_SETTINGS_KEY ] ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
