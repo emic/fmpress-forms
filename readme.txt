@@ -61,10 +61,13 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 
 == Changelog ==
 
-= 1.2.3 =
-(In development)
+= 1.3.0 =
+Release Date: October 24, 2022
 
+* Add FMPress Forms Editor
+* Add partial support for FileMaker value list
 * Fix compatibility with FMPress Pro 1.1.0 or later
+* Fix compatibility with Live Preview for Contact Form 7
 
 = 1.2.2 =
 Release Date: July 28, 2022
