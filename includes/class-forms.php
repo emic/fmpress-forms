@@ -536,7 +536,6 @@ final class Forms {
 				} elseif ( 'date' === $group && Core\Utils::is_valid_date( $raw_value ) ) {
 					// Fix date format.
 					$value = Core\Utils::format_date_for_update( $raw_value );
-					$value = implode( "\r", $raw_value );
 				} elseif ( 'file' === $group ) {
 					// File upload.
 					$value = null;
