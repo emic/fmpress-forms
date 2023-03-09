@@ -1,9 +1,9 @@
 === FMPress Forms ===
-Contributors: emiccorp, matsuoatsushi
+Contributors: emiccorp, matsuoatsushi, nue2501
 Tags: claris, filemaker, database, contact form 7, form
 Requires at least: 5.7
-Tested up to: 6.0
-Stable tag: 1.3.0
+Tested up to: 6.1
+Stable tag: 1.3.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -60,6 +60,11 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 2. "FMPress" tab on the Contact Form 7's Admin Screen
 
 == Changelog ==
+
+= 1.3.1 =
+Release Date: October 31, 2022
+
+* Fix saving when using date type of form-tag
 
 = 1.3.0 =
 Release Date: October 24, 2022
