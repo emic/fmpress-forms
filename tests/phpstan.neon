@@ -1,0 +1,19 @@
+includes:
+    - ../vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+    paths:
+        - ../fmpress-forms.php
+        - ../admin
+        - ../includes
+    fileExtensions:
+        - php
+    ignoreErrors:
+        - '#Undefined variable: \$post#'
+        - '#Call to static method get_current\(\) on an unknown class WPCF7_ContactForm\.#'
+        - '#Call to static method get_instance\(\) on an unknown class WPCF7_FormTagsManager\.#'
+        - '#Instantiated class WPCF7_MailTag not found\.#'
+        - '#Call to static method crypto_aead_aes256gcm_is_available\(\) on an unknown class ParagonIE_Sodium_Compat\.#'
+        - '#Call to static method strlen\(\) on an unknown class ParagonIE_Sodium_Core_Util\.#'
+        - '#Access to constant CRYPTO_AEAD_AES256GCM_KEYBYTES on an unknown class ParagonIE_Sodium_Compat\.#'
+        - '#Access to constant CRYPTO_AEAD_AES256GCM_NPUBBYTES on an unknown class ParagonIE_Sodium_Compat\.#'
+        - '#Call to static method crypto_aead_aes256gcm_decrypt\(\) on an unknown class ParagonIE_Sodium_Compat\.#'
