@@ -4,8 +4,8 @@
         "wp-coding-standards/wpcs": "^2.3",
         "phpcompatibility/php-compatibility": "^9.3",
         "phpunit/phpunit": "^8",
-        "yoast/phpunit-polyfills": "^1.0.3"
-    },
-    "require": {
+        "yoast/phpunit-polyfills": "^1.0.3",
+        "phpstan/phpstan": "^1.10",
+        "szepeviktor/phpstan-wordpress": "^1.3"
     }
 }
