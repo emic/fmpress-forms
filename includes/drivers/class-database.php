@@ -13,8 +13,8 @@ require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Core/Util.php';
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Compat.php';
 
-use \WP_Http;
-use \WP_Error;
+use WP_Http;
+use WP_Error;
 
 /**
  * Driver for FileMaker Data API
