@@ -2,7 +2,7 @@
 
 namespace Emic\WP_UnitTestCase;
 
-use \WP_UnitTestCase;
+use WP_UnitTestCase;
 
 final class Tests_Utils extends WP_UnitTestCase {
 	/**
