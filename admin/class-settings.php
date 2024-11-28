@@ -206,7 +206,7 @@ final class Settings {
 	 * @param array $tab Tab array.
 	 */
 	public function add_tab( $tab ) {
-		echo sprintf(
+		printf(
 			'<li class="%s"><span class="%s" style="%s"></span><a href="%s">%s</a></li>',
 			esc_attr( $tab['selected'] ? 'tabs' : 'hide-if-no-js' ),
 			esc_attr( $tab['icon_classes'] ),
@@ -282,7 +282,7 @@ final class Settings {
 	 * @param string $saved_value .
 	 */
 	public function add_layout_name_field( $field_name, $saved_value ) {
-		echo sprintf(
+		printf(
 			'<tr>' .
 			'<th><label for="%1$s">%2$s</label></th>' .
 			'<td><input id="%1$s" type="%5$s" name="%3$s" value="%4$s"></td>' .

@@ -109,10 +109,10 @@ final class Datasources {
 	 * Display sub menu
 	 */
 	public function display_submenu() {
-		echo sprintf(
+		printf(
 			'<div class="wrap"><h1>%s</h1><p><a href="%s" target="_blank" rel="noopener">%s</a></p></div>',
 			esc_html__( 'Documentation', 'fmpress-forms' ),
-			esc_attr( 'https://github.com/emic/fmpress-forms/wiki' ),
+			esc_url( 'https://github.com/emic/fmpress-forms/wiki' ),
 			esc_html__( 'Click here for documentation.', 'fmpress-forms' )
 		);
 	}
@@ -182,7 +182,7 @@ final class Datasources {
 		);
 
 		// Datasource name.
-		echo sprintf(
+		printf(
 			'<div class="form-field">' .
 			'<label for="%1$s">%2$s</label>' .
 			'<input id="%1$s" type="%5$s" name="%3$s" value="%4$s">' .
@@ -195,7 +195,7 @@ final class Datasources {
 		);
 
 		// Username.
-		echo sprintf(
+		printf(
 			'<div class="form-field">' .
 			'<label for="%1$s">%2$s</label>' .
 			'<input id="%1$s" type="%5$s" name="%3$s" value="%4$s">' .
@@ -208,7 +208,7 @@ final class Datasources {
 		);
 
 		// Password.
-		echo sprintf(
+		printf(
 			'<div class="form-field">' .
 			'<label for="%1$s" data-labelforserver="%13$s" data-labelforcloud="%14$s">%2$s</label>' .
 			'<button id="%8$s" type="button" class="button wp-generate-pw hide-if-no-js" data-labelforserver="%15$s" data-labelforcloud="%16$s">%6$s</button>' .
@@ -440,7 +440,7 @@ final class Datasources {
 			return;
 		}
 
-		echo sprintf(
+		printf(
 			'<button id="connectionTest" class="button">%1$s</button>',
 			esc_html__( 'Connection test', 'fmpress-forms' )
 		);
