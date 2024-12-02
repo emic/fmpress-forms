@@ -293,12 +293,9 @@ final class Datasources {
 		}
 
 		if ( isset( $_POST[ $field_name ] ) ) {
-			$sanitized = sanitize_text_field( wp_unslash( $_POST[ $field_name ] ) );
-			update_post_meta( $post_id, $field_name, $sanitized );
-		} else {
-			if ( isset( $post_id ) ) {
-				delete_post_meta( $post_id, $field_name );
-			}
+			update_post_meta( $post_id, $field_name, $_POST[ $field_name ] );
+		} elseif ( isset( $post_id ) ) {
+			delete_post_meta( $post_id, $field_name );
 		}
 	}
 
@@ -375,7 +372,7 @@ final class Datasources {
 		$form_value = '';
 
 		if ( isset( $_POST[ $field_name ] ) ) {
-			$form_value = sanitize_text_field( wp_unslash( $_POST[ $field_name ] ) );
+			$form_value = $_POST[ $field_name ];
 		} else {
 			return;
 		}
@@ -397,10 +394,8 @@ final class Datasources {
 
 			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
 			update_post_meta( $post_id, $field_name, base64_encode( $ciphertext ) );
-		} else {
-			if ( isset( $post_id ) ) {
-				delete_post_meta( $post_id, $field_name );
-			}
+		} elseif ( isset( $post_id ) ) {
+			delete_post_meta( $post_id, $field_name );
 		}
 	}
 
