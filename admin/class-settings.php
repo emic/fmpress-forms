@@ -151,12 +151,9 @@ final class Settings {
 		}
 
 		if ( isset( $_POST[ $field_name ] ) ) {
-			$sanitized = sanitize_text_field( wp_unslash( $_POST[ $field_name ] ) );
-			update_post_meta( $post_id, $field_name, $sanitized );
-		} else {
-			if ( isset( $post->ID ) ) {
-				delete_post_meta( $post->ID, $field_name );
-			}
+			update_post_meta( $post_id, $field_name, $_POST[ $field_name ] );
+		} elseif ( isset( $post->ID ) ) {
+			delete_post_meta( $post->ID, $field_name );
 		}
 	}
 
@@ -173,8 +170,7 @@ final class Settings {
 		}
 
 		if ( isset( $_POST[ $field_name ] ) ) {
-			$sanitized = sanitize_text_field( wp_unslash( $_POST[ $field_name ] ) );
-			update_post_meta( $post_id, $sanitized, 1 );
+			update_post_meta( $post_id, $_POST[ $field_name ], 1 );
 		} else {
 			update_post_meta( $post_id, $field_name, 0 );
 		}
