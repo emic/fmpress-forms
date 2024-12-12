@@ -207,7 +207,7 @@ final class Settings {
 			esc_attr( $tab['selected'] ? 'tabs' : 'hide-if-no-js' ),
 			esc_attr( $tab['icon_classes'] ),
 			'',
-			esc_attr( '#fmpress-connect-' . strtolower( $tab['name'] ) ),
+			esc_url( '#fmpress-connect-' . strtolower( $tab['name'] ) ),
 			esc_html( $tab['title'] )
 		);
 	}

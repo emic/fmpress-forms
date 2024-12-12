@@ -226,7 +226,7 @@ final class FMPress_Forms {
 		// Loading admin CSS.
 		add_action(
 			'admin_menu',
-			function() {
+			function () {
 				wp_enqueue_style(
 					'fmpress-connect-admin',
 					plugins_url( '/admin/css/admin.css', __FILE__ ),
@@ -239,7 +239,7 @@ final class FMPress_Forms {
 		// Loading admin JS (in header).
 		add_action(
 			'admin_enqueue_scripts',
-			function() {
+			function () {
 				if ( did_action( 'fmpress_forms_loaded' ) ) {
 					wp_enqueue_script(
 						'fmpress-connect-admin',
