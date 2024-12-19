@@ -114,16 +114,18 @@ final class Forms {
 	 * @access public
 	 */
 	public function __construct() {
-		if ( ! is_admin() ) {
-			if ( did_action( 'fmpress_forms_pro_loaded' ) ) {
-				$this->update_form = new Update_Form( $this );
-			}
-
-			add_action( 'the_post', array( $this, 'prepare_form' ), 9 );
-			add_action( 'wpcf7_before_send_mail', array( $this, 'post' ), 10, 3 );
-			add_action( 'wpcf7_skip_mail', array( $this, 'set_skip_mail' ), 10, 2 );
-			add_filter( 'wpcf7_submission_result', array( $this, 'set_error' ), 10, 2 );
+		if ( is_admin() ) {
+			return;
 		}
+
+		if ( $this->is_enabled_fmpress_forms_pro() ) {
+			$this->update_form = new Update_Form( $this );
+		}
+
+		add_action( 'the_post', array( $this, 'prepare_form' ), 9 );
+		add_action( 'wpcf7_before_send_mail', array( $this, 'post' ), 10, 3 );
+		add_action( 'wpcf7_skip_mail', array( $this, 'set_skip_mail' ), 10, 2 );
+		add_filter( 'wpcf7_submission_result', array( $this, 'set_error' ), 10, 2 );
 	}
 
 	/**
@@ -261,7 +263,7 @@ final class Forms {
 		$fm_value_list = new Fm_Value_List();
 		add_filter( 'wpcf7_form_tag', array( $fm_value_list, 'generate_custom_select' ), 10, 1 );
 
-		if ( did_action( 'fmpress_forms_pro_loaded' ) ) {
+		if ( $this->is_enabled_fmpress_forms_pro() ) {
 			// Set up the form for updating.
 			add_filter( 'wpcf7_form_tag', array( $this->update_form, 'set_up_form_for_update' ), 11, 1 );
 		}
@@ -564,7 +566,7 @@ final class Forms {
 			}
 		}
 
-		if ( did_action( 'fmpress_forms_pro_loaded' ) ) {
+		if ( $this->is_enabled_fmpress_forms_pro() ) {
 			if ( '1' === $cf7_settings['form_mode'] && ! empty( $cf7_settings['external_table_key_field'] ) ) {
 				// Create mode.
 				// Add primary field and value.
@@ -630,5 +632,16 @@ final class Forms {
 				break;
 		}
 		return $group;
+	}
+
+	/**
+	 * Determine if FMPress Form Pro plugin is enabled.
+	 *
+	 * @since 1.3.2
+	 * @access private
+	 * @return bool
+	 */
+	private function is_enabled_fmpress_forms_pro() {
+		return 1 === did_action( 'fmpress_forms_pro_loaded' ) ? true : false;
 	}
 }
