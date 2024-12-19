@@ -181,12 +181,15 @@ final class FMPress_Forms {
 	 * @since 1.0.0
 	 * @access public
 	 * @param string $links .
-	 * @return string
+	 * @return array
 	 */
 	public function fmpress_add_link_to_settings( $links ) {
-		$links[] = '<a href="' .
-			admin_url( 'admin.php?page=wpcf7' ) .
-			'">' . __( 'Settings' ) . '</a>';
+		$links[] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( add_query_arg( array( 'page' => 'wpcf7' ), admin_url( 'admin.php' ) ) ),
+			__( 'Settings' )
+		);
+
 		return $links;
 	}
 
