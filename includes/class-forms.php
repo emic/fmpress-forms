@@ -171,22 +171,11 @@ final class Forms {
 			}
 		}
 
-		// Generate post data.
-		if ( did_action( 'fmpress_forms_pro_loaded' ) &&
-			! empty( $cf7_settings['external_table_key_field'] ) &&
-			'2' === $cf7_settings['form_mode']
-		) {
-			// When the external key has been set in settings.
-			$update = true;
+		// Set primary key of logged in user.
+		$this->set_login_user_primary_key( $cf7_settings, $posted_data );
 
-			// Get user id from external datasource.
-			$primary_key = $this->update_form->get_user_primary_key_from_datasource( $posted_data );
-			if ( is_wp_error( $primary_key ) ) {
-				Core\Utils::show_error( $primary_key->get_error_message() );
-			} else {
-				$this->login_user_primary_key = $primary_key;
-			}
-		}
+		// Determine if update mode is enabled.
+		$update = $this->is_update_mode( $cf7_settings );
 
 		// Generate external datasource.
 		$this->datasource_id = intval( $cf7_settings['datasource_id'] );
@@ -643,5 +632,62 @@ final class Forms {
 	 */
 	private function is_enabled_fmpress_forms_pro() {
 		return 1 === did_action( 'fmpress_forms_pro_loaded' ) ? true : false;
+	}
+
+	/**
+	 * Determine if the value of foreign key field is set.
+	 *
+	 * @since 1.3.2
+	 * @access private
+	 * @param array $cf7_settings .
+	 * @return bool
+	 */
+	private function isset_external_table_key_field( $cf7_settings ) {
+		if ( ! $this->is_enabled_fmpress_forms_pro() ) {
+			return false;
+		}
+
+		return empty( $cf7_settings['external_table_key_field'] ) ? false : true;
+	}
+
+	/**
+	 * Set primary key of logged in user.
+	 *
+	 * @since 1.3.2
+	 * @access private
+	 * @param array $cf7_settings .
+	 * @param array $posted_data .
+	 * @return void
+	 */
+	private function set_login_user_primary_key( $cf7_settings, $posted_data ) {
+		if ( ! $this->isset_external_table_key_field( $cf7_settings ) ) {
+			return;
+		}
+
+		// Get primary key from external datasource.
+		$primary_key = $this->update_form->get_user_primary_key_from_datasource( $posted_data );
+		if ( is_wp_error( $primary_key ) ) {
+			Core\Utils::show_error( $primary_key->get_error_message() );
+			return;
+		}
+
+		$this->login_user_primary_key = $primary_key;
+	}
+
+	/**
+	 * Determine if update mode is enabled.
+	 *
+	 * @since 1.3.2
+	 * @access private
+	 * @param array $cf7_settings .
+	 * @return bool
+	 */
+	private function is_update_mode( $cf7_settings ) {
+		if ( ! $this->isset_external_table_key_field( $cf7_settings ) ) {
+			return false;
+		}
+
+		// Determine operating mode.
+		return '2' === $cf7_settings['form_mode'] ? true : false;
 	}
 }
