@@ -36,8 +36,12 @@ ADD . /fmpress-forms
 ADD composer.json /composer.json
 RUN useradd -m wordpress
 RUN sudo -u wordpress -i -- cd / && composer update
-RUN git clone -b master https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git ./vendor/squizlabs/php_codesniffer/Standards/WordPress
-RUN ./vendor/bin/phpcs --config-set installed_paths `pwd`/vendor/squizlabs/php_codesniffer/Standards/WordPress
+
+# Installing WordPress Coding Standards for PHP_CodeSniffer
+RUN sudo -u wordpress -i -- cd / && composer config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+RUN sudo -u wordpress -i -- cd / && composer require --dev wp-coding-standards/wpcs:"^3.0"
+RUN sudo -u wordpress -i -- cd / && composer update wp-coding-standards/wpcs --with-dependencies
+RUN sudo -u wordpress -i -- /vendor/bin/phpcs -ps . --standard=WordPress
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 RUN rm -f /var/www/html/index.html
