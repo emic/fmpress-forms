@@ -590,10 +590,9 @@ final class Forms {
 	 * @since 1.0.0
 	 * @access private
 	 * @param object|array $tag CF7 tag.
-	 * @param bool         $array true if the arg is an array.
 	 */
-	private function get_fm_field( $tag, $array = false ) {
-		$name = $array ? $tag['name'] : $tag->name;
+	private function get_fm_field( $tag ) {
+		$name = is_array( $tag ) ? $tag['name'] : $tag->name;
 		return isset( $name ) ? mb_substr( $name, mb_strlen( self::FM_FIELD_PREFIX ) ) : null;
 	}
 
