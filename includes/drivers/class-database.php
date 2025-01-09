@@ -355,7 +355,6 @@ abstract class Database {
 		} else {
 			echo '<p>' . esc_html( $response ) . '</p>';
 		}
-
 	}
 
 	/**
