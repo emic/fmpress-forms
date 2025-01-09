@@ -6,10 +6,87 @@ on:
       - "*"
 
 jobs:
+  test-with-wordpress67:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker-run
+        shell: bash
+        run: |
+          docker build -t fmpress-ubuntu .
+          docker run -d --name testcontainer --rm -p 50067:80 fmpress-ubuntu
+
+          docker exec -i testcontainer sh -c "php -v"
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs -i"
+
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs --standard=/fmpress-forms/phpcs.xml --extensions=php /fmpress-forms"
+
+          docker exec -i testcontainer sh -c "/etc/init.d/mysql start &"
+
+          docker exec -i testcontainer sh -c "cd /var/www/html/wp-content/plugins/fmpress-forms && ./bin/install-wp-tests.sh wp67 root PASSWORD localhost 6.7 && /vendor/bin/phpunit --bootstrap=tests/phpunit/bootstrap.php tests/phpunit/fmpress-forms-test.php"
+
+
+  test-with-wordpress66:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker-run
+        shell: bash
+        run: |
+          docker build -t fmpress-ubuntu .
+          docker run -d --name testcontainer --rm -p 50066:80 fmpress-ubuntu
+
+          docker exec -i testcontainer sh -c "php -v"
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs -i"
+
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs --standard=/fmpress-forms/phpcs.xml --extensions=php /fmpress-forms"
+
+          docker exec -i testcontainer sh -c "/etc/init.d/mysql start &"
+
+          docker exec -i testcontainer sh -c "cd /var/www/html/wp-content/plugins/fmpress-forms && ./bin/install-wp-tests.sh wp66 root PASSWORD localhost 6.6 && /vendor/bin/phpunit --bootstrap=tests/phpunit/bootstrap.php tests/phpunit/fmpress-forms-test.php"
+
+  test-with-wordpress65:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker-run
+        shell: bash
+        run: |
+          docker build -t fmpress-ubuntu .
+          docker run -d --name testcontainer --rm -p 50065:80 fmpress-ubuntu
+
+          docker exec -i testcontainer sh -c "php -v"
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs -i"
+
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs --standard=/fmpress-forms/phpcs.xml --extensions=php /fmpress-forms"
+
+          docker exec -i testcontainer sh -c "/etc/init.d/mysql start &"
+
+          docker exec -i testcontainer sh -c "cd /var/www/html/wp-content/plugins/fmpress-forms && ./bin/install-wp-tests.sh wp65 root PASSWORD localhost 6.5 && /vendor/bin/phpunit --bootstrap=tests/phpunit/bootstrap.php tests/phpunit/fmpress-forms-test.php"
+
+  test-with-wordpress64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker-run
+        shell: bash
+        run: |
+          docker build -t fmpress-ubuntu .
+          docker run -d --name testcontainer --rm -p 50064:80 fmpress-ubuntu
+
+          docker exec -i testcontainer sh -c "php -v"
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs -i"
+
+          docker exec -i testcontainer sh -c "/vendor/bin/phpcs --standard=/fmpress-forms/phpcs.xml --extensions=php /fmpress-forms"
+
+          docker exec -i testcontainer sh -c "/etc/init.d/mysql start &"
+
+          docker exec -i testcontainer sh -c "cd /var/www/html/wp-content/plugins/fmpress-forms && ./bin/install-wp-tests.sh wp64 root PASSWORD localhost 6.4 && /vendor/bin/phpunit --bootstrap=tests/phpunit/bootstrap.php tests/phpunit/fmpress-forms-test.php"
+
   test-with-wordpress63:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@v4
       - name: docker-run
         shell: bash
         run: |
@@ -28,7 +105,7 @@ jobs:
   test-with-wordpress62:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@v4
       - name: docker-run
         shell: bash
         run: |
@@ -47,7 +124,7 @@ jobs:
   test-with-wordpress61:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@v4
       - name: docker-run
         shell: bash
         run: |
@@ -66,7 +143,7 @@ jobs:
   test-with-wordpress60:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@v4
       - name: docker-run
         shell: bash
         run: |
@@ -85,7 +162,7 @@ jobs:
   test-with-wordpress59:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@v4
       - name: docker-run
         shell: bash
         run: |
@@ -104,7 +181,7 @@ jobs:
   test-with-wordpress58:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@v4
       - name: docker-run
         shell: bash
         run: |
@@ -125,7 +202,7 @@ jobs:
   test-with-wordpress57:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - uses: actions/checkout@v4
       - name: docker-run
         shell: bash
         run: |
