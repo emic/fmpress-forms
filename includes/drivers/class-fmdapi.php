@@ -245,5 +245,4 @@ final class Fmdapi extends Database {
 		}
 		return null;
 	}
-
 }

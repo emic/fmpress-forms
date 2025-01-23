@@ -1,23 +1,101 @@
 <?xml version="1.0"?>
-<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="WordPress" namespace="WordPressCS\WordPress" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="WordPress Coding Standards" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
 
-	<description>WordPress Coding Standards</description>
-	<config name="installed_paths" value="vendor/wp-coding-standards/wpcs" />
+	<description>The Coding standard for the WordPress Coding Standards itself.</description>
 
-	<exclude-pattern>*/*.js</exclude-pattern>
-	<exclude-pattern>*/*.css</exclude-pattern>
+	<!--
+    #############################################################################
+    COMMAND LINE ARGUMENTS
+    https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-Ruleset
+    #############################################################################
+    -->
+
+	<file>.</file>
+
+	<!-- Exclude Composer vendor directory. -->
 	<exclude-pattern>*/tests/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 
-	<rule ref="WordPress-Core">
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+	<!-- Only check PHP files. -->
+	<arg name="extensions" value="php"/>
+
+	<!-- Show progress, show the error codes for each message (source). -->
+	<arg value="ps"/>
+
+	<!-- Strip the filepaths down to the relevant bit. -->
+	<arg name="basepath" value="."/>
+
+	<!-- Check up to 8 files simultaneously. -->
+	<arg name="parallel" value="8"/>
+
+
+	<!--
+    #############################################################################
+    SET UP THE RULESETS
+    #############################################################################
+    -->
+
+	<rule ref="WordPress">
+		<!-- This project needs to comply with naming standards from PHPCS, not WP. -->
+		<exclude name="WordPress.Files.FileName"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
+
+		<!-- While conditions with assignments are a typical way to walk the token stream. -->
+		<exclude name="Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition"/>
+
+		<!-- The code in this project is run in the context of PHPCS, not WP. -->
+		<exclude name="WordPress.DateTime"/>
+		<exclude name="WordPress.DB"/>
+		<exclude name="WordPress.Security"/>
+		<exclude name="WordPress.WP"/>
+
+		<!-- Linting is done in a separate CI job, no need to duplicate it. -->
+		<exclude name="Generic.PHP.Syntax"/>
+
+		<!-- WordPressCS still has a PHP 5.4 minimum. -->
+		<exclude name="Modernize.FunctionCalls.Dirname"/>
 	</rule>
 
-	<rule ref="WordPress-Docs"/>
-	<rule ref="WordPress-Extra">
-		<!-- Prevent duplicate messages + deprecation notice from deprecated sniff. -->
-		<exclude name="WordPress.WP.TimezoneChange.timezone_change_date_default_timezone_set"/>
-		<exclude name="WordPress.WP.TimezoneChange.DeprecatedSniff"/>
+	<!-- Check code for cross-version PHP compatibility. -->
+	<config name="testVersion" value="7.1-"/>
+	<rule ref="PHPCompatibility">
+		<!-- Exclude PHP constants back-filled by PHPCS. -->
+		<exclude name="PHPCompatibility.Constants.NewConstants.t_finallyFound"/>
+		<exclude name="PHPCompatibility.Constants.NewConstants.t_yieldFound"/>
+		<exclude name="PHPCompatibility.Constants.NewConstants.t_ellipsisFound"/>
+		<exclude name="PHPCompatibility.Constants.NewConstants.t_powFound"/>
+		<exclude name="PHPCompatibility.Constants.NewConstants.t_pow_equalFound"/>
+		<exclude name="PHPCompatibility.Constants.NewConstants.t_spaceshipFound"/>
+		<exclude name="PHPCompatibility.Constants.NewConstants.t_coalesceFound"/>
+		<exclude name="PHPCompatibility.Constants.NewConstants.t_coalesce_equalFound"/>
+		<exclude name="PHPCompatibility.Constants.NewConstants.t_yield_fromFound"/>
+	</rule>
+
+	<!-- Enforce PSR1 compatible namespaces. -->
+	<rule ref="PSR1.Classes.ClassDeclaration"/>
+
+	<!-- Enforce that classes are abstract or final. -->
+	<rule ref="Universal.Classes.RequireFinalClass">
+		<!-- ... with the exception of four sniffs which are known to be extended by external standards. -->
+		<exclude-pattern>/WordPress/Sniffs/NamingConventions/ValidHookNameSniff\.php$</exclude-pattern>
+		<exclude-pattern>/WordPress/Sniffs/Security/(EscapeOutput|NonceVerification|ValidatedSanitizedInput)Sniff\.php$</exclude-pattern>
+	</rule>
+
+	<!-- Enforce that methods in traits are always final. -->
+	<rule ref="Universal.FunctionDeclarations.RequireFinalMethodsInTraits"/>
+
+
+	<!--
+    #############################################################################
+    SNIFF SPECIFIC CONFIGURATION
+    #############################################################################
+    -->
+
+	<rule ref="WordPress.Arrays.MultipleStatementAlignment">
+		<properties>
+			<property name="alignMultilineItems" value="!=100"/>
+			<property name="exact" value="false" phpcs-only="true"/>
+		</properties>
 	</rule>
 
 </ruleset>
