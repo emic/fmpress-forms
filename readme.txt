@@ -1,7 +1,7 @@
 === FMPress Forms ===
 Contributors: emiccorp, matsuoatsushi, nue2501
 Tags: claris, filemaker, database, contact form 7, form
-Requires at least: 5.7
+Requires at least: 6.0
 Tested up to: 6.3
 Stable tag: 1.3.4
 Requires PHP: 7.4
@@ -17,7 +17,7 @@ This plugin can save form data to Claris FileMaker Server.
 
 = What is Claris FileMaker? =
 
-Claris FileMaker is an application development platform to build custom apps that solve your business problems, 
+Claris FileMaker is an application development platform to build custom apps that solve your business problems,
 provided by Claris International Inc.
 
 * Information in Japanese : [https://www.claris.com/ja/filemaker/](https://www.claris.com/ja/filemaker/)
@@ -36,7 +36,7 @@ To run FMPress Forms we recommend your host supports:
 1. Upload the entire `fmpress-forms` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
-After activation of the plugin, you'll find *FMPress* on the WordPress admin screen menu, 
+After activation of the plugin, you'll find *FMPress* on the WordPress admin screen menu,
 and *FMPress* tab appears on the "Contact Form 7" setting screen.
 
 == Frequently Asked Questions ==
@@ -60,6 +60,11 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 2. "FMPress" tab on the Contact Form 7's Admin Screen
 
 == Changelog ==
+
+= 1.3.5 (in development) =
+Release Date:
+
+* Drop support for WordPress 5.7, 5.8 and 5.9.
 
 = 1.3.1 =
 Release Date: October 31, 2022
