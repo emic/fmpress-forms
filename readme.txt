@@ -1,7 +1,7 @@
 === FMPress Forms ===
 Contributors: emiccorp, matsuoatsushi, nue2501
 Tags: claris, filemaker, database, contact form 7, form
-Requires at least: 6.0
+Requires at least: 6.1
 Tested up to: 6.3
 Stable tag: 1.3.4
 Requires PHP: 7.4
@@ -64,7 +64,7 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 = 1.3.5 (in development) =
 Release Date:
 
-* Drop support for WordPress 5.7, 5.8 and 5.9.
+* Drop support for WordPress 5.7, 5.8, 5.9 and 6.0.
 
 = 1.3.1 =
 Release Date: October 31, 2022
