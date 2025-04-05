@@ -1,10 +1,11 @@
 FROM ubuntu:22.04
 
+ARG PHPVERSION
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update \
-# && apt-get install -y software-properties-common \
-# && add-apt-repository ppa:ondrej/php \
+ && apt-get install -y software-properties-common \
+ && add-apt-repository ppa:ondrej/php \
  && apt-get -y upgrade\
  && apt-get install -y --no-install-recommends \
     init \
@@ -18,16 +19,15 @@ RUN apt-get -y update \
     mariadb-client \
     sudo \
     subversion \
-    libxt6 \
-    php \
-    php-cli \
-    php-mbstring \
-    php-xmlwriter \
-    php-curl \
-    php-mysql \
+    php${PHPVERSION} \
+    php${PHPVERSION}-cli \
+    php${PHPVERSION}-mbstring \
+    php${PHPVERSION}-xml \
+    php${PHPVERSION}-curl \
+    php${PHPVERSION}-mysql \
     vim \
     apache2 \
-    libapache2-mod-php \
+    libapache2-mod-php${PHPVERSION} \
  && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
@@ -49,6 +49,6 @@ RUN sudo -u wordpress -i -- /usr/local/bin/wp core download --allow-root --local
 ADD . /var/www/html/wp-content/plugins/fmpress-forms
 RUN chown -R www-data:wordpress /var/www/html
 
-RUN curl -L -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-9.phar && chmod +x /usr/local/bin/phpunit && /usr/local/bin/phpunit --version
+RUN curl -L -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-10.phar && chmod +x /usr/local/bin/phpunit && /usr/local/bin/phpunit --version
 
 CMD [ "/sbin/init" ]
