@@ -1,6 +1,11 @@
 services:
   web:
-    build: .
+    environment:
+      - PHPVERSION
+    build:
+      context: .
+      args:
+        - PHPVERSION=${PHPVERSION}
     platform: linux/amd64
     depends_on:
       - db
@@ -17,4 +22,4 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: PASSWORD
     ports:
-      - 3306:3306
+      - 127.0.0.1:3306:3306

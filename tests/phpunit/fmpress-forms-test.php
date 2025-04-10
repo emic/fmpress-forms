@@ -56,7 +56,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	public function test_constant_value() {
 		$droot = 'true' === getenv( 'GITLAB_CI' ) ? '/home/wordpress' : '/var/www/html';
 
-		$this->assertEquals( FMPRESS_FORMS_PLUGIN_DIR, "${droot}/wp-content/plugins/fmpress-forms" );
+		$this->assertEquals( FMPRESS_FORMS_PLUGIN_DIR, "{$droot}/wp-content/plugins/fmpress-forms" );
 		$this->assertEquals( FMPRESS_FORMS_CF7_SETTINGS_KEY, 'fmpress_connect_settings_data' );
 	}
 
@@ -69,7 +69,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 		$this->assertEquals( '1.3.4', self::$plugin::VERSION );
 
 		$droot = 'true' === getenv( 'GITLAB_CI' ) ? '/home/wordpress' : '/var/www/html';
-		$data = get_plugin_data("${droot}/wp-content/plugins/fmpress-forms/fmpress-forms.php");
+		$data = get_plugin_data("{$droot}/wp-content/plugins/fmpress-forms/fmpress-forms.php");
 		$this->assertEquals( self::$plugin::VERSION, $data['Version'] );
 	}
 

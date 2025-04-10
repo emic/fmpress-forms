@@ -1,4 +1,4 @@
-name: build
+name: Test
 
 on:
   push:
@@ -10,15 +10,18 @@ on:
 
 jobs:
   test:
+    name: Test (PHP ${{ matrix.php-version }} and WordPress ${{ matrix.wordpress-version }})
     runs-on: 'ubuntu-latest'
     strategy:
       matrix:
+        php-version: [ '8.1', '8.2', '8.3', '8.4' ]
         wordpress-version: [ '6.1', '6.2', '6.3', '6.4', '6.5', '6.6', '6.7' ]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: docker-run
+      - name: Test
         shell: bash
         run: |
+          docker compose build --build-arg PHPVERSION="${{ matrix.php-version }}"
           docker compose up -d
           sleep 30
           docker compose run web sh -c "php -v"
