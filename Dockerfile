@@ -38,7 +38,7 @@ RUN sudo -u wordpress -i -- cd / && composer update
 
 # Installing WordPress Coding Standards for PHP_CodeSniffer
 RUN sudo -u wordpress -i -- cd / && composer config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-RUN sudo -u wordpress -i -- cd / && composer require --dev wp-coding-standards/wpcs:"^3.0"
+RUN sudo -u wordpress -i -- cd / && composer require --dev wp-coding-standards/wpcs:"^3.1"
 RUN sudo -u wordpress -i -- cd / && composer update wp-coding-standards/wpcs --with-dependencies
 RUN sudo -u wordpress -i -- /vendor/bin/phpcs -ps . --standard=WordPress
 
@@ -49,6 +49,6 @@ RUN sudo -u wordpress -i -- /usr/local/bin/wp core download --allow-root --local
 ADD . /var/www/html/wp-content/plugins/fmpress-forms
 RUN chown -R www-data:wordpress /var/www/html
 
-RUN curl -L -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-10.phar && chmod +x /usr/local/bin/phpunit && /usr/local/bin/phpunit --version
+RUN curl -L -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-8.phar && chmod +x /usr/local/bin/phpunit && /usr/local/bin/phpunit --version
 
 CMD [ "/sbin/init" ]
