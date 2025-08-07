@@ -20,6 +20,24 @@ final class Fm_Value_List {
 	private const FM_VALUE_LIST_PREFIX = 'fm_value_list-';
 
 	/**
+	 * Datasource
+	 *
+	 * @since 1.3.2
+	 * @access protected
+	 * @var array $datasource
+	 */
+	protected $datasource = array();
+
+	/**
+	 * Datasource id
+	 *
+	 * @since 1.3.2
+	 * @access protected
+	 * @var int $datasource_id
+	 */
+	protected $datasource_id = 0;
+
+	/**
 	 * Record of external datasource
 	 *
 	 * @since 1.0.0
