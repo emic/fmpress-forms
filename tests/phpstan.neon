@@ -7,13 +7,53 @@ parameters:
         - ../includes
     fileExtensions:
         - php
+    reportUnmatchedIgnoredErrors: false
     ignoreErrors:
-        - '#Undefined variable: \$post#'
-        - '#Call to static method get_current\(\) on an unknown class WPCF7_ContactForm\.#'
-        - '#Call to static method get_instance\(\) on an unknown class WPCF7_FormTagsManager\.#'
-        - '#Instantiated class WPCF7_MailTag not found\.#'
-        - '#Call to static method crypto_aead_aes256gcm_is_available\(\) on an unknown class ParagonIE_Sodium_Compat\.#'
-        - '#Call to static method strlen\(\) on an unknown class ParagonIE_Sodium_Core_Util\.#'
+        -
+            identifier: class.notFound
+            path: ../admin/class-admin.php
+        -
+            identifier: class.notFound
+            path: ../admin/class-datasources.php
+        -
+            identifier: class.notFound
+            path: ../includes/class-forms.php
+        -
+            identifier: method.notFound
+            path: ../includes/drivers/class-database.php
+        -
+            identifier: return.void
+            path: ../admin/class-datasources.php
+        -
+            identifier: return.void
+            path: ../fmpress-forms.php
+        -
+            identifier: return.void
+            path: ../includes/class-forms.php
+        -
+            identifier: staticMethod.notFound
+            path: ../includes/class-forms.php
         - '#Access to constant CRYPTO_AEAD_AES256GCM_KEYBYTES on an unknown class ParagonIE_Sodium_Compat\.#'
         - '#Access to constant CRYPTO_AEAD_AES256GCM_NPUBBYTES on an unknown class ParagonIE_Sodium_Compat\.#'
+        - '#Call to method collect_mail_tags\(\) on an unknown class Emic\\FMPress\\Forms\\WPCF7_ContactForm\.#'
+        - '#Call to method get_contact_form\(\) on an unknown class Emic\\FMPress\\Forms\\WPCF7_Submission\.#'
+        - '#Call to method get_posted_data\(\) on an unknown class Emic\\FMPress\\Forms\\WPCF7_Submission\.#'
+        - '#Call to method prop\(\) on an unknown class Emic\\FMPress\\Forms\\WPCF7_ContactForm\.#'
+        - '#Call to method save\(\) on an unknown class Emic\\FMPress\\Forms\\WPCF7_ContactForm\.#'
+        - '#Call to method scan_form_tags\(\) on an unknown class Emic\\FMPress\\Forms\\WPCF7_ContactForm\.#'
+        - '#Call to method set_properties\(\) on an unknown class Emic\\FMPress\\Forms\\WPCF7_ContactForm\.#'
+        - '#Call to method uploaded_files\(\) on an unknown class Emic\\FMPress\\Forms\\WPCF7_Submission\.#'
+        - '#Call to static method get_current\(\) on an unknown class WPCF7_ContactForm\.#'
+        - '#Call to static method get_instance\(\) on an unknown class WPCF7_FormTagsManager\.#'
+        - '#Call to static method crypto_aead_aes256gcm_is_available\(\) on an unknown class ParagonIE_Sodium_Compat\.#'
+        - '#Call to static method strlen\(\) on an unknown class ParagonIE_Sodium_Core_Util\.#'
         - '#Call to static method crypto_aead_aes256gcm_decrypt\(\) on an unknown class ParagonIE_Sodium_Compat\.#'
+        - '#Constant FMPRESS_CONNECT_ENCRYPT_KEY not found\.#'
+        - '#Constant FMPRESS_CONNECT_ENCRYPT_IV not found\.#'
+        - '#Constant FMPRESS_CONNECT_NAMEPREFIX not found\.#'
+        - '#Instantiated class WPCF7_MailTag not found\.#'
+        - '#Path in require_once\(\) "\./wp-admin/includes/.*\.php.*#'
+        - '#Path in require_once\(\) "\./wp-includes/sodium_compat/src.*\.php.*#'
+        - '#Undefined variable: \$post#'
+        - '#Variable \$post in isset\(\) is never defined\.#'
+        - '#Variable \$post_id in isset\(\) always exists and is not nullable\.#'
