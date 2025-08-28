@@ -23,9 +23,9 @@ final class Admin {
 	public function __construct() {
 		if ( defined( 'WPCF7_VERSION' ) ) {
 			if ( version_compare( WPCF7_VERSION, '5.5.3', '>=' ) ) {
-				add_filter( 'wpcf7_pre_construct_contact_form_properties', array( $this, 'add_fmpress_property' ), 10, 2 );
+				add_filter( 'wpcf7_pre_construct_contact_form_properties', array( $this, 'add_fmpress_property' ) );
 			} else {
-				add_filter( 'wpcf7_contact_form_properties', array( $this, 'add_fmpress_property' ), 10, 2 );
+				add_filter( 'wpcf7_contact_form_properties', array( $this, 'add_fmpress_property' ) );
 			}
 
 			if ( is_admin() ) {
