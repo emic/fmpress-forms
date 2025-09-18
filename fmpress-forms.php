@@ -112,13 +112,16 @@ final class FMPress_Forms {
 		}
 
 		// Disable CF7 SWV.
-		add_action( 'init', function() {
-			// Checkbox.
-			remove_action( 'wpcf7_swv_create_schema', 'wpcf7_swv_add_checkbox_enum_rules', 20, 2 );
+		add_action(
+			'init',
+			function () {
+				// Checkbox.
+				remove_action( 'wpcf7_swv_create_schema', 'wpcf7_swv_add_checkbox_enum_rules', 20, 2 );
 
-			// Select.
-			remove_action( 'wpcf7_swv_create_schema', 'wpcf7_swv_add_select_enum_rules', 20, 2 );
-		});
+				// Select.
+				remove_action( 'wpcf7_swv_create_schema', 'wpcf7_swv_add_select_enum_rules', 20, 2 );
+			}
+		);
 
 		// Add a link to the settings on the plugin page.
 		add_filter(
