@@ -1,10 +1,10 @@
 === FMPress Forms ===
 Contributors: emiccorp, matsuoatsushi, nue2501
 Tags: claris, filemaker, database, contact form 7, form
-Requires at least: 5.7
-Tested up to: 6.0
-Stable tag: 1.3.1
-Requires PHP: 7.4
+Requires at least: 6.1
+Tested up to: 6.8
+Stable tag: 2.0.0
+Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ This plugin can save form data to Claris FileMaker Server.
 
 = What is Claris FileMaker? =
 
-Claris FileMaker is an application development platform to build custom apps that solve your business problems, 
+Claris FileMaker is an application development platform to build custom apps that solve your business problems,
 provided by Claris International Inc.
 
 * Information in Japanese : [https://www.claris.com/ja/filemaker/](https://www.claris.com/ja/filemaker/)
@@ -27,8 +27,8 @@ provided by Claris International Inc.
 
 To run FMPress Forms we recommend your host supports:
 - Contact Form 7 version 5.5 or greater.
-- PHP version 7.4 or greater.
-- Claris FileMaker Server version 19.1 or greater.
+- PHP version 8.1 or greater.
+- Claris FileMaker Server version 2024 (v21.x) or greater.
 - HTTPS support
 
 == Installation ==
@@ -36,7 +36,7 @@ To run FMPress Forms we recommend your host supports:
 1. Upload the entire `fmpress-forms` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
-After activation of the plugin, you'll find *FMPress* on the WordPress admin screen menu, 
+After activation of the plugin, you'll find *FMPress* on the WordPress admin screen menu,
 and *FMPress* tab appears on the "Contact Form 7" setting screen.
 
 == Frequently Asked Questions ==
@@ -60,6 +60,15 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 2. "FMPress" tab on the Contact Form 7's Admin Screen
 
 == Changelog ==
+
+= 2.0.0 =
+Release Date: October 9, 2025
+
+* Add support for PHP 8.1, 8.2, 8.3 and 8.4
+* Add support for Contact Form 7 6.1.2
+* Drop support for PHP 7.4 and 8.0
+* Drop support for WordPress 5.7, 5.8, 5.9 and 6.0
+* Fix an issue where using FileMaker's value list caused the error "An undefined value was sent from this field"
 
 = 1.3.1 =
 Release Date: October 31, 2022

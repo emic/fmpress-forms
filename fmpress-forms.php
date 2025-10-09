@@ -3,7 +3,7 @@
  * Plugin Name: FMPress Forms
  * Plugin URI: https://www.emic.co.jp/products/
  * Description: Addon for Contact Form 7.
- * Version: 1.3.1
+ * Version: 2.0.0
  * Author: Emic Corporation
  * Author URI: https://www.emic.co.jp/
  * License: GPLv2 or later
@@ -42,7 +42,7 @@ final class FMPress_Forms {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.3.1';
+	const VERSION = '2.0.0';
 
 	/**
 	 * Minimum Version of PHP
@@ -110,6 +110,18 @@ final class FMPress_Forms {
 			// Exit if FMPress Pro and FMPress Forms are activated.
 			return;
 		}
+
+		// Disable CF7 SWV.
+		add_action(
+			'init',
+			function () {
+				// Checkbox.
+				remove_action( 'wpcf7_swv_create_schema', 'wpcf7_swv_add_checkbox_enum_rules', 20, 2 );
+
+				// Select.
+				remove_action( 'wpcf7_swv_create_schema', 'wpcf7_swv_add_select_enum_rules', 20, 2 );
+			}
+		);
 
 		// Add a link to the settings on the plugin page.
 		add_filter(
@@ -181,12 +193,15 @@ final class FMPress_Forms {
 	 * @since 1.0.0
 	 * @access public
 	 * @param string $links .
-	 * @return string
+	 * @return array
 	 */
 	public function fmpress_add_link_to_settings( $links ) {
-		$links[] = '<a href="' .
-			admin_url( 'admin.php?page=wpcf7' ) .
-			'">' . __( 'Settings' ) . '</a>';
+		$links[] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( add_query_arg( array( 'page' => 'wpcf7' ), admin_url( 'admin.php' ) ) ),
+			__( 'Settings' )
+		);
+
 		return $links;
 	}
 
@@ -226,7 +241,7 @@ final class FMPress_Forms {
 		// Loading admin CSS.
 		add_action(
 			'admin_menu',
-			function() {
+			function () {
 				wp_enqueue_style(
 					'fmpress-connect-admin',
 					plugins_url( '/admin/css/admin.css', __FILE__ ),
@@ -239,7 +254,7 @@ final class FMPress_Forms {
 		// Loading admin JS (in header).
 		add_action(
 			'admin_enqueue_scripts',
-			function() {
+			function () {
 				if ( did_action( 'fmpress_forms_loaded' ) ) {
 					wp_enqueue_script(
 						'fmpress-connect-admin',
