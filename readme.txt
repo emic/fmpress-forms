@@ -2,7 +2,7 @@
 Contributors: emiccorp, matsuoatsushi, nue2501
 Tags: claris, filemaker, database, contact form 7, form
 Requires at least: 6.1
-Tested up to: 6.3
+Tested up to: 6.8
 Stable tag: 2.0.0
 Requires PHP: 8.1
 License: GPLv2 or later
@@ -28,7 +28,7 @@ provided by Claris International Inc.
 To run FMPress Forms we recommend your host supports:
 - Contact Form 7 version 5.5 or greater.
 - PHP version 8.1 or greater.
-- Claris FileMaker Server version 19.1 or greater.
+- Claris FileMaker Server version 2024 (v21.x) or greater.
 - HTTPS support
 
 == Installation ==
@@ -61,12 +61,14 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 
 == Changelog ==
 
-= 2.0.0 (in development) =
-Release Date:
+= 2.0.0 =
+Release Date: October 9, 2025
 
-* Add support for PHP 8.1, 8.2, 8.3 and 8.4.
-* Drop support for PHP 7.4 and 8.0.
-* Drop support for WordPress 5.7, 5.8, 5.9 and 6.0.
+* Add support for PHP 8.1, 8.2, 8.3 and 8.4
+* Add support for Contact Form 7 6.1.2
+* Drop support for PHP 7.4 and 8.0
+* Drop support for WordPress 5.7, 5.8, 5.9 and 6.0
+* Fix an issue where using FileMaker's value list caused the error "An undefined value was sent from this field"
 
 = 1.3.1 =
 Release Date: October 31, 2022
