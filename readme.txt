@@ -62,7 +62,7 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 == Changelog ==
 
 = 2.0.0 =
-Release Date: October 9, 2025
+Release Date: October 23, 2025
 
 * Add support for PHP 8.1, 8.2, 8.3 and 8.4
 * Add support for Contact Form 7 6.1.2
