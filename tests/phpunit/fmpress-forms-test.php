@@ -37,7 +37,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function setUp() {
+	public function setUp(): void {
 	}
 
 	/**
@@ -45,7 +45,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function tearDown() {
+	public function tearDown(): void {
 	}
 
 	/**
@@ -56,7 +56,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	public function test_constant_value() {
 		$droot = 'true' === getenv( 'GITLAB_CI' ) ? '/home/wordpress' : '/var/www/html';
 
-		$this->assertEquals( FMPRESS_FORMS_PLUGIN_DIR, "${droot}/wp-content/plugins/fmpress-forms" );
+		$this->assertEquals( FMPRESS_FORMS_PLUGIN_DIR, "{$droot}/wp-content/plugins/fmpress-forms" );
 		$this->assertEquals( FMPRESS_FORMS_CF7_SETTINGS_KEY, 'fmpress_connect_settings_data' );
 	}
 
@@ -66,10 +66,10 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 * @return void
 	 */
 	public function test_plugin_version() {
-		$this->assertEquals( '1.3.1', self::$plugin::VERSION );
+		$this->assertEquals( '2.0.0', self::$plugin::VERSION );
 
 		$droot = 'true' === getenv( 'GITLAB_CI' ) ? '/home/wordpress' : '/var/www/html';
-		$data = get_plugin_data("${droot}/wp-content/plugins/fmpress-forms/fmpress-forms.php");
+		$data = get_plugin_data("{$droot}/wp-content/plugins/fmpress-forms/fmpress-forms.php");
 		$this->assertEquals( self::$plugin::VERSION, $data['Version'] );
 	}
 
@@ -145,7 +145,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 		// 最低バージョンに満たない場合.
 		else {
 			$this->assertFalse( $result );
-			$this->assertContains(
+			$this->assertStringContainsString(
 				esc_html(
 					sprintf(
 						'"%s" requires "PHP" version %s or greater.',
@@ -198,7 +198,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 		// 最低バージョンに満たない場合.
 		else {
 			$this->assertFalse( $result );
-			$this->assertContains(
+			$this->assertStringContainsString(
 				esc_html(
 					sprintf(
 						'"%s" requires "Contact Form 7" version %s or greater.',
@@ -232,7 +232,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 		$actual = ob_get_clean();
 
 		$this->assertFalse( $result );
-		$this->assertContains(
+		$this->assertStringContainsString(
 			esc_html( sprintf( '"FMPress Forms" and "%s" cannot be activated simultaneously.', self::$plugin::PLUGIN_NAME ) ),
 			$actual
 		);
@@ -277,7 +277,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 		$actual = ob_get_clean();
 
 		$this->assertFalse( $result );
-		$this->assertContains(
+		$this->assertStringContainsString(
 			esc_html(
 				sprintf(
 					'"%s" requires "FMPress Pro" to be installed and activated.',
@@ -319,7 +319,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 		$actual = ob_get_clean();
 
 		$this->assertFalse( $result );
-		$this->assertContains(
+		$this->assertStringContainsString(
 			esc_html( '"FMPress Forms" and "FMPress Pro" cannot be activated simultaneously.' ),
 			$actual
 		);
@@ -409,7 +409,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 		$this->assertTrue( wp_style_is( 'fmpress-connect-admin', 'registered' ) );
 		$this->assertEquals( $wp_scripts->registered['fmpress-connect-admin']->handle, 'fmpress-connect-admin' );
 		$this->assertEquals( $wp_scripts->registered['fmpress-connect-admin']->src, plugins_url( '/admin/js/admin.min.js', FMPRESS_FORMS_PLUGIN_DIR . '/fmpress.php' ) );
-		$this->assertArraySubset( $wp_scripts->registered['fmpress-connect-admin']->deps, array() );
+		$this->assertSame( $wp_scripts->registered['fmpress-connect-admin']->deps, array() );
 	}
 
 	/**
@@ -419,7 +419,7 @@ class FMPressFormsTest extends WP_UnitTestCase {
 	 */
 	public function test_fmpress_deactivate_plugin() {
 		$_GET['activate'] = true;
-		$this->assertArraySubset( $_GET, array( 'activate' => true ) );
+		$this->assertSame( $_GET, array( 'activate' => true ) );
 
 		// 無効化できたかのテスト方法を模索…
 		self::$plugin->fmpress_deactivate_plugin();

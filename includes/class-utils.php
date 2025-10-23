@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || die( 'Access denied.' );
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Core/Util.php';
 require_once ABSPATH . 'wp-includes/sodium_compat/src/Compat.php';
 
-use \WP_Error;
+use WP_Error;
 
 /**
  * Utils

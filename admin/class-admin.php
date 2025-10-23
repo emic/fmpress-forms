@@ -23,9 +23,9 @@ final class Admin {
 	public function __construct() {
 		if ( defined( 'WPCF7_VERSION' ) ) {
 			if ( version_compare( WPCF7_VERSION, '5.5.3', '>=' ) ) {
-				add_filter( 'wpcf7_pre_construct_contact_form_properties', array( $this, 'add_fmpress_property' ), 10, 2 );
+				add_filter( 'wpcf7_pre_construct_contact_form_properties', array( $this, 'add_fmpress_property' ) );
 			} else {
-				add_filter( 'wpcf7_contact_form_properties', array( $this, 'add_fmpress_property' ), 10, 2 );
+				add_filter( 'wpcf7_contact_form_properties', array( $this, 'add_fmpress_property' ) );
 			}
 
 			if ( is_admin() ) {
@@ -38,11 +38,10 @@ final class Admin {
 	/**
 	 * Set property
 	 *
-	 * @param array             $properties .
-	 * @param WPCF7_ContactForm $contact_form .
+	 * @param array $properties .
 	 * @return array
 	 */
-	public function add_fmpress_property( $properties, $contact_form ) {
+	public function add_fmpress_property( $properties ) {
 		$properties = wp_parse_args(
 			$properties,
 			array(
@@ -240,7 +239,7 @@ final class Admin {
 	 */
 	private function assign_fields_section( $contact_form ) {
 		echo '<hr style="margin: 1em 0 2em;">',
-			'<h2>', esc_html__( 'Assign fields', 'fmpress-forms' ), '</h2>','<table class="table fmpress-admin-table"><tbody>',
+			'<h2>', esc_html__( 'Assign fields', 'fmpress-forms' ), '</h2>', '<table class="table fmpress-admin-table"><tbody>',
 			'<p><small>', esc_html__( 'To specify fields, you must add fm_field- as a prefix to the beginning of the form-tag name in the Form tab panel. (e.g. fm_field-company_name)', 'fmpress-forms' ), '</small></p>';
 
 		// Generate fields for field assignment.
@@ -406,11 +405,10 @@ final class Admin {
 	 * Remove prefix and return field name
 	 *
 	 * @param WPCF7_FormTag|array $tag CF7 tag.
-	 * @param bool                $array true if the arg is an array.
 	 * @return string|null
 	 */
-	private function get_fm_field( $tag, $array = false ) {
-		$name = $array ? $tag['name'] : $tag->name;
+	private function get_fm_field( $tag ) {
+		$name = is_array( $tag ) ? $tag['name'] : $tag->name;
 		return isset( $name ) ? mb_substr( $name, mb_strlen( self::FM_FIELD_PREFIX ) ) : null;
 	}
 }
