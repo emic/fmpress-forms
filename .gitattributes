@@ -14,3 +14,4 @@
 /package.json export-ignore
 /phpcs.xml export-ignore
 /phpunit.xml export-ignore
+/docker-compose.yaml export-ignore
