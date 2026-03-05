@@ -59,6 +59,13 @@ You must add *fm_field-* as a prefix to the beginning of the form-tag name in th
 1. Edit Datasource on the WordPress admin screen
 2. "FMPress" tab on the Contact Form 7's Admin Screen
 
+== Contributors ==
+
+* Atsushi Matsuo
+* Kentaro Suzuki
+* Kenzo Nakata
+* Rei Watanabe
+
 == Changelog ==
 
 = 2.0.0 =
